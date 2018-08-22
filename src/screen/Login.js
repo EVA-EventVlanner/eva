@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import {StyleSheet, Text} from 'react-native';
-import { Container, Header, Content, Form, Item, Input, Label, Button, Icon } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Label, Button, Icon, Card, CardItem, Body } from 'native-base';
 
 class Login extends Component{
    constructor(props){
@@ -54,23 +54,31 @@ class Login extends Component{
       return (
          <Container>
             <Content>
-            <Header style={{backgroundColor: "#009BD2"}}> 
-               <Text style={styles.headerText}> Sign In </Text> 
-            </Header>
-            <Form>
-               <Item floatingLabel>
-                  <Label>Username</Label>
-                  <Input name="username" value={this.state.username} onChangeText={(text)=> this.handleChangeUsername(text)} />
-               </Item>
-               <Item floatingLabel last>
-                  <Label>Password</Label>
-                  <Input secureTextEntry={this.state.hidePassword} name="password" value={this.state.password} onChangeText={(text)=> this.handleChangePassword(text)}  />
-                  <Icon name={this.state.eye} onPress={(e) => this.toggleDisplay(e)} color="white"/> 
-               </Item>
-               <Button block style={{backgroundColor: "#009BD2"}} onPress={(e)=>this.Submit(e)}>
-                  <Text style={{color: "white"}}>Sign In</Text>
-               </Button>
-            </Form>
+               <Card style={{flex: 1}}>
+                  {/* <CardItem header style={{backgroundColor: "#009BD2"}}>
+                     <Text style={styles.headerText}>Sign In</Text>
+                  </CardItem> */}
+                  <CardItem>
+                     <Body>
+                        <Form style={{width:'100%'}}>
+                           <Item floatingLabel>
+                              <Label>Username</Label>
+                              <Input name="username" value={this.state.username} onChangeText={(text)=> this.handleChangeUsername(text)} />
+                           </Item>
+                           <Item floatingLabel last>
+                              <Label>Password</Label>
+                              <Input secureTextEntry={this.state.hidePassword} name="password" value={this.state.password} onChangeText={(text)=> this.handleChangePassword(text)}  />
+                              <Icon name={this.state.eye} onPress={(e) => this.toggleDisplay(e)} color="white"/> 
+                           </Item>
+                        </Form>
+                     </Body>
+                  </CardItem>
+                  <CardItem footer>
+                     <Button block style={{backgroundColor: "#009BD2", width: '100%'}} onPress={(e)=>this.Submit(e)}>
+                        <Text style={{color: "white", fontSize: 18}}>Sign In</Text>
+                     </Button>
+                  </CardItem>
+               </Card>
             </Content>
          </Container>
       );
@@ -85,8 +93,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
    },
    headerText:{
-      alignItems: 'center', 
-      textAlignVertical: 'center', 
+      flex: 1, 
+      // alignItems: 'center', 
+      textAlign: 'center', 
       fontSize: 25, 
       color:'white'
    }
