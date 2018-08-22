@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Label, Button, Icon, Card, CardItem, Body } from 'native-base';
 import { StackNavigator} from 'react-navigation';
 import RegisterScreen from './Register'
@@ -81,11 +81,11 @@ class Login extends Component{
                         </Form>
                      </Body>
                   </CardItem>
-                  <CardItem style={{alignContent: 'center'}}>
+                  <CardItem style={{flex:1, justifyContent:'center'}}>
                      <Text> Don't have an account? </Text>
-                     <Button hasText transparent onPress={() => navigate('Register')} >
-                        <Text>Register Here</Text>
-                     </Button>
+                     <TouchableOpacity onPress={() => navigate('Register')} >
+                        <Text style={{color:"#009BD2"}}>Register Here</Text>
+                     </TouchableOpacity>
                   </CardItem>
                   <CardItem footer>
                      <Button block style={{backgroundColor: "#009BD2", width: '100%'}} onPress={(e)=>this.Submit(e)}>
