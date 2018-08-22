@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Button} from 'native-base';
 import LoginScreen from './src/screen/Login';
 import RegisterScreen from './src/screen/Register'
+import HomeScreen from './src/screen/Home'
 import {createStackNavigator} from 'react-navigation';
 
 
@@ -18,6 +20,19 @@ const StackNav = createStackNavigator({
     navigationOptions:{
       title: "Register",
       headerTintColor: '#fff',
+    }
+  },
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {
+        title: "Home",
+        headerTintColor: 'white',
+        headerLeft: null,
+        headerRight: (
+        <TouchableOpacity style={{ marginRight: 10}} onPress={() => navigation.navigate('Register')}>
+          <Text style={{ color: "white", fontSize:20, fontWeight:"600" }}> Join </Text>
+        </TouchableOpacity>   
+      )
     }
   }
 }, 
