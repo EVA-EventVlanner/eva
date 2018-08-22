@@ -2,6 +2,13 @@
 import React, { Component } from 'react';
 import {StyleSheet, Text} from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Label, Button, Icon, Card, CardItem, Body } from 'native-base';
+import { StackNavigator} from 'react-navigation';
+import RegisterScreen from './Register'
+
+ const Navigate = StackNavigator({
+   Register: { screen: RegisterScreen },
+ });
+
 
 class Login extends Component{
    constructor(props){
@@ -51,6 +58,7 @@ class Login extends Component{
    }
 
    render() {
+      const { navigate } = this.props.navigation;
       return (
          <Container>
             <Content>
@@ -72,6 +80,12 @@ class Login extends Component{
                            </Item>
                         </Form>
                      </Body>
+                  </CardItem>
+                  <CardItem style={{alignContent: 'center'}}>
+                     <Text> Don't have an account? </Text>
+                     <Button hasText transparent onPress={() => navigate('Register')} >
+                        <Text>Register Here</Text>
+                     </Button>
                   </CardItem>
                   <CardItem footer>
                      <Button block style={{backgroundColor: "#009BD2", width: '100%'}} onPress={(e)=>this.Submit(e)}>
