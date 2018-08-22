@@ -4,9 +4,11 @@ import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Label, Button, Icon, Card, CardItem, Body } from 'native-base';
 import { StackNavigator} from 'react-navigation';
 import RegisterScreen from './Register'
+import HomeScreen from './Home'
 
  const Navigate = StackNavigator({
    Register: { screen: RegisterScreen },
+   Home: {screen: HomeScreen}
  });
 
 
@@ -51,9 +53,9 @@ class Login extends Component{
 
 
    Submit(e){
-      e.preventDefault();
+      // e.preventDefault();
       console.log("INI HASIL: ", this.state)
-
+      this.props.navigation.navigate("Home")
       //Send state to db
    }
 
