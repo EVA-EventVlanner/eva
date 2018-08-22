@@ -1,8 +1,8 @@
 
 import React, { Component } from 'react';
 import {StyleSheet, Text} from 'react-native';
-import { Container, Header, Content, Form, Item, Input, Label, Button } from 'native-base';
-import Ionicon from 'react-native-vector-icons/Ionicons'
+import { Container, Header, Content, Form, Item, Input, Label, Button, Icon } from 'native-base';
+// import Ionicon from 'react-native-vector-icons/Ionicons'
 
  class Login extends Component{
    constructor(props){
@@ -11,7 +11,6 @@ import Ionicon from 'react-native-vector-icons/Ionicons'
          username: '',
          password: '',
          hidePassword: true,
-         status: "Show"
       }
    }
 
@@ -31,17 +30,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons'
 
    toggleDisplay() {
       this.setState({ hidePassword: !this.state.hidePassword })
-      if (this.state.hidePassword === true){
-         this.setState({
-            status: "Show"
-         })
-      }
-      else{
-         this.setState({
-            status: "Hide"
-         })
-      }
-    }
+   }
   
 
    Submit(e){
@@ -66,7 +55,8 @@ import Ionicon from 'react-native-vector-icons/Ionicons'
               <Item floatingLabel last>
                 <Label>Password</Label>
                 <Input secureTextEntry={this.state.hidePassword} name="password" value={this.state.password} onChangeText={(text)=> this.handleChangePassword(text)}  />
-                <Ionicon name="md-eye" onPress={(e) => this.toggleDisplay(e)} size={15} color="white"/>
+                <Icon name="home" onPress={(e) => this.toggleDisplay(e)} /> 
+                {/* Home is a placeholder icon */}
               </Item>
               <Button block style={{backgroundColor: "#009BD2"}} onPress={(e)=>this.Submit(e)}>
                   <Text style={{color: "white"}}>Sign In</Text>
