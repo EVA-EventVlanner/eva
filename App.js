@@ -27,12 +27,7 @@ const StackNav = createStackNavigator({
     navigationOptions: {
         title: "Home",
         headerTintColor: 'white',
-        headerLeft: null,
-        headerRight: (
-        <TouchableOpacity style={{ marginRight: 10}} onPress={() => navigation.navigate('Register')}>
-          <Text style={{ color: "white", fontSize:20, fontWeight:"600" }}> Join </Text>
-        </TouchableOpacity>   
-      )
+        headerLeft: null 
     }
   }
 }, 
