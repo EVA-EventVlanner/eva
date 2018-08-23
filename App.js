@@ -4,8 +4,27 @@ import {Button} from 'native-base';
 import LoginScreen from './src/screen/Login';
 import RegisterScreen from './src/screen/Register'
 import HomeScreen from './src/screen/Home'
-import {createStackNavigator} from 'react-navigation';
+import MyEventScreen from './src/screen/MyEvents'
+import {createStackNavigator, createDrawerNavigator} from 'react-navigation';
 
+const DrawerBar = createDrawerNavigator({
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {
+      drawerLabel: 'Home',
+      title : 'Home',
+      headerTintColor: 'white',
+      headerLeft: null
+    }
+  },
+  MyEvents: {
+    screen: MyEventScreen,
+    navigationOptions: {
+      title : 'My Events',
+      headerTintColor: 'white',
+    }
+  },
+})
 
 const StackNav = createStackNavigator({
   Login: { 
@@ -22,14 +41,7 @@ const StackNav = createStackNavigator({
       headerTintColor: '#fff',
     }
   },
-  Home: {
-    screen: HomeScreen,
-    navigationOptions: {
-        title: "Home",
-        headerTintColor: 'white',
-        headerLeft: null 
-    }
-  }
+  Home: DrawerBar
 }, 
 {
   initialRouteName: 'Login',
@@ -39,6 +51,8 @@ const StackNav = createStackNavigator({
     }
   },
 });
+
+
 
 export default class App extends Component{
   render() {

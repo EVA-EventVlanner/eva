@@ -1,14 +1,15 @@
 const initialState = {
-
+    events: []
 }
 
 const eventReducer = (state = initialState, action) => {
-    switch(action.type) {
-        case 'TEST':
-            return state
-        default:
-            return state
+    if (action.type==='SET_STATE_EVENT') {
+        return {
+            ...state,
+            events: action.payload
+        }
     }
+    return state
 }
 
 export default eventReducer

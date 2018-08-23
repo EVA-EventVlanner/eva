@@ -1,87 +1,47 @@
 import React, {Component} from 'react'
-import { StyleSheet, Image, FlatList} from 'react-native'
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body } from 'native-base';
+import { StyleSheet, Image, FlatList, ActivityIndicator} from 'react-native'
+import CardEvent from '../components/CardEvent'
+import {connect} from 'react-redux'
+import {fetchingDataEvent} from '../actions/eventActions'
 
  class Home extends Component{
-   constructor(props){
-      super(props)
-      this.state={
-         fakeData: [{
-            id: 1,
-            data: 'a'
-         },
-         {
-            id: 2,
-            data: 'b'
-         },
-         {
-            id: 3,
-            data: 'c'
-         },
-         {
-            id: 4,
-            data: 'd'
-         },
-         {
-            id: 5,
-            data: 'e'
-         },
-         {
-            id: 6,
-            data: 'f'
-         },
-         {
-            id: 7,
-            data: 'g'
-         }]
-      }
+   componentDidMount () {
+     this.props.fetchingDataEvent()
    }
-
+   
    render() {
-    return (
+    console.log(this.props.events)
+    if (this.props.events.length===0) {
+      return (
+        <ActivityIndicator style={{justifyContent:'center',flex: 1}} />
+      )
+    }
+    else {
+      return (
         <FlatList
-          data={this.state.fakeData}
+          data={this.props.events}
           renderItem={({ item, index }) => {
             return (
-               <Card style={{flex: 0}}>
-                  <CardItem>
-                  <Left>
-                     <Thumbnail source={{uri: 'Image URL'}} />
-                     <Body>
-                        <Text>NativeBase</Text>
-                        <Text note>April 15, 2016</Text>
-                     </Body>
-                  </Left>
-                  </CardItem>
-                  <CardItem>
-                  <Body>
-                     <Image source={{uri: 'Image URL'}} style={{height: 200, width: 200, flex: 1}}/>
-                     <Text>
-                        {item.data}
-                     </Text>
-                  </Body>
-                  </CardItem>
-                  <CardItem>
-                  <Left>
-                     <Button transparent textStyle={{color: '#87838B'}}>
-                        <Icon name="logo-github" />
-                        <Text>1,926 stars</Text>
-                     </Button>
-                  </Left>
-                  </CardItem>
-               </Card>
+               <CardEvent key={index} index={index} item={item} />       
             )
            }}
-           keyExtractor={(item) => item.id}
+           keyExtractor={(item) => item._id}
         />
-    )
+           )
+    }
    } 
  }
 
+const mapStateToProps = (state) => {
+    return {
+      events : state.eventReducers.events
+    }
+  }
+ const mapDispatchToProps = dispatch => {
+  return {
+      fetchingDataEvent: () => dispatch(fetchingDataEvent())
+  }
+}
 
-const styles = StyleSheet.create({
-
-})
-
-
-export default (Home);
+//make this component available to the app
+export default connect(mapStateToProps,mapDispatchToProps)(Home)
