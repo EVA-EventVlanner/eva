@@ -6,27 +6,24 @@ import { Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body } from 'nativ
 import {connect} from 'react-redux'
 import {fetchingDataEvent} from '../actions/eventActions'
 class CardEvent extends Component {
-    componentDidMount () {
-
-    }
     render() {
         const item = this.props.item
+        const imgUrl = item.imageUrl
         return (
             <Card style={{flex: 0}}>
                   <CardItem>
                   <Left>
-                     <Thumbnail source={{uri: 'Image URL'}} />
                      <Body>
-                        <Text>NativeBase</Text>
-                        <Text note>April 15, 2016</Text>
+                        <Text> {item.eventName} </Text>
+                        <Text note>Creator: {item.admin.username} </Text>
                      </Body>
                   </Left>
                   </CardItem>
                   <CardItem>
                   <Body>
-                     <Image source={{uri: 'Image URL'}} style={{height: 200, width: 200, flex: 1}}/>
-                     <Text>
-                        {item.data}
+                     <Image source={{uri: imgUrl}} style={{height: 200, width: '100%', alignContent:'center',alignItems:'center'}}/>
+                     <Text style={{marginTop:10}} >
+                        {item.description}
                      </Text>
                   </Body>
                   </CardItem>
@@ -43,8 +40,17 @@ class CardEvent extends Component {
     }
 }
 
-// define your styles
-
+// const mapStateToProps = (state) => {
+//     return {
+//       data : state.pmReducer.accounts
+//     }
+//   }
+  const mapDispatchToProps = dispatch => {
+    return {
+        fetchingDataEvent: () => dispatch(fetchingDataEvent())
+    }
+  }
 
 //make this component available to the app
-export default CardEvent;
+export default connect(null,mapDispatchToProps)(CardEvent)
+

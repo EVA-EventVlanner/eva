@@ -32,7 +32,7 @@ const StackNav = createStackNavigator({
   }
 }, 
 {
-  initialRouteName: 'Login',
+  initialRouteName: 'Home',
   navigationOptions: {
     headerStyle: {
       backgroundColor: "#009BD2"

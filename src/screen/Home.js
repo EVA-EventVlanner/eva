@@ -1,38 +1,55 @@
 import React, {Component} from 'react'
-import { StyleSheet, Image, FlatList} from 'react-native'
+import { StyleSheet, Image, FlatList, ActivityIndicator} from 'react-native'
 import CardEvent from '../components/CardEvent'
- class Home extends Component{
-   constructor(props){
-      super(props)
-      this.state={
-         fakeData: [
-           {
-            id: 1,
-            data: 'a'
-           }
-        ]
-      }
-   }
+import {connect} from 'react-redux'
+import {fetchingDataEvent} from '../actions/eventActions'
 
+ class Home extends Component{
+    state={
+      fakeData: [
+        {
+        id: "1",
+        data: 'a'
+        }
+    ]
+   }
+   componentDidMount () {
+     this.props.fetchingDataEvent()
+   }
+   
    render() {
-    return (
+    console.log(this.props.events)
+    if (this.props.events.length===0) {
+      return (
+        <ActivityIndicator style={{alignItems:'center', justifyContent:'center'}} />
+      )
+    }
+    else {
+      return (
         <FlatList
-          data={this.state.fakeData}
+          data={this.props.events}
           renderItem={({ item, index }) => {
             return (
-               <CardEvent item={item} />       
+               <CardEvent key={index} index={index} item={item} />       
             )
            }}
-           keyExtractor={(item) => item.id}
+           keyExtractor={(item) => item._id}
         />
-    )
+           )
+    }
    } 
  }
 
+const mapStateToProps = (state) => {
+    return {
+      events : state.eventReducers.events
+    }
+  }
+ const mapDispatchToProps = dispatch => {
+  return {
+      fetchingDataEvent: () => dispatch(fetchingDataEvent())
+  }
+}
 
-const styles = StyleSheet.create({
-
-})
-
-
-export default (Home);
+//make this component available to the app
+export default connect(mapStateToProps,mapDispatchToProps)(Home)
