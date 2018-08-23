@@ -1,10 +1,12 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, StyleSheet, Image } from 'react-native';
-import { Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body } from 'native-base';
+import { Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 // create a component
 import {connect} from 'react-redux'
 import {fetchingDataEvent} from '../actions/eventActions'
+import ModalPasswordEvent from './ModalPasswordEvent'
+
 class CardEvent extends Component {
     render() {
         const item = this.props.item
@@ -29,10 +31,7 @@ class CardEvent extends Component {
                   </CardItem>
                   <CardItem>
                   <Left>
-                     <Button transparent textStyle={{color: '#87838B'}}>
-                        <Icon name="logo-github" />
-                        <Text>1,926 stars</Text>
-                     </Button>
+                      <ModalPasswordEvent />
                   </Left>
                   </CardItem>
                </Card>

@@ -5,14 +5,6 @@ import {connect} from 'react-redux'
 import {fetchingDataEvent} from '../actions/eventActions'
 
  class Home extends Component{
-    state={
-      fakeData: [
-        {
-        id: "1",
-        data: 'a'
-        }
-    ]
-   }
    componentDidMount () {
      this.props.fetchingDataEvent()
    }
@@ -21,7 +13,7 @@ import {fetchingDataEvent} from '../actions/eventActions'
     console.log(this.props.events)
     if (this.props.events.length===0) {
       return (
-        <ActivityIndicator style={{alignItems:'center', justifyContent:'center'}} />
+        <ActivityIndicator style={{justifyContent:'center',flex: 1}} />
       )
     }
     else {
