@@ -1,15 +1,13 @@
 
 import React, { Component } from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity , AsyncStorage } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Label, Button, Icon, Card, CardItem, Body } from 'native-base';
-import { StackNavigator} from 'react-navigation';
+// import { CreateStackNavigator} from 'react-navigation';
 import RegisterScreen from './Register'
 import HomeScreen from './Home'
-
- const Navigate = StackNavigator({
-   Register: { screen: RegisterScreen },
-   Home: {screen: HomeScreen}
- });
+import axios from 'axios'
+import {connect} from 'react-redux'
+import {saveToken} from '../actions/eventActions'
 
 
 class Login extends Component{
@@ -19,19 +17,21 @@ class Login extends Component{
          username: '',
          password: '',
          hidePassword: true,
-         eye: 'eye-off'
+         eye: 'eye-off',
+         token: 'token',
+         getToken: 'get token'
       }
    }
 
    handleChangeUsername(text){
-      console.log(text)
+      // console.log(text)
       this.setState({
          username: text
       })
    }
 
    handleChangePassword(text){
-      console.log(text)
+      // console.log(text)
       this.setState({
          password: text
       })
@@ -52,11 +52,26 @@ class Login extends Component{
    }
 
 
-   Submit(e){
-      // e.preventDefault();
-      console.log("INI HASIL: ", this.state)
-      this.props.navigation.navigate("Home")
-      //Send state to db
+   async Submit(e){
+      try {
+        let obj = {
+          username: this.state.username,
+          password: this.state.password
+        }
+        const {data} = await axios.post('https://eva-server.ariefardi.xyz/users/login', obj)
+        // console.log(data)
+        AsyncStorage.setItem("token", `${data.token}`)
+        AsyncStorage.setItem("userId", `${data.found._id}`)
+        let temp = {
+          token: data.token,
+          userId: data.found._id
+        }
+        this.props.navigation.navigate('Home')
+        this.props.saveToken(temp)
+        alert(data.message)
+      } catch(err) {
+        alert('there is some error')
+      }
    }
 
    render() {
@@ -71,13 +86,11 @@ class Login extends Component{
                   <CardItem>
                      <Body>
                         <Form style={{width:'100%'}}>
-                           <Item floatingLabel>
-                              <Label>Username</Label>
-                              <Input name="username" value={this.state.username} onChangeText={(text)=> this.handleChangeUsername(text)} />
+                           <Item >
+                              <Input name="Username" placeholder={'Username'} onChangeText={(text)=> this.handleChangeUsername(text)} />
                            </Item>
-                           <Item floatingLabel last>
-                              <Label>Password</Label>
-                              <Input secureTextEntry={this.state.hidePassword} name="password" value={this.state.password} onChangeText={(text)=> this.handleChangePassword(text)}  />
+                           <Item>
+                              <Input secureTextEntry={this.state.hidePassword} name="password" placeholder={'Password'} onChangeText={(text)=> this.handleChangePassword(text)}  />
                               <Icon name={this.state.eye} onPress={(e) => this.toggleDisplay(e)} color="white"/> 
                            </Item>
                         </Form>
@@ -116,6 +129,16 @@ const styles = StyleSheet.create({
       color:'white'
    }
 })
+const mapStateToProps = (state) => {
+  return {
+    token : state.eventReducers.token,
+    userId : state.eventReducers.userId
+  }
+}
+const mapDispatchToProps = dispatch => {
+return {
+    saveToken: (token) => dispatch(saveToken(token))
+  }
+}
 
-
-export default (Login);
+export default connect(mapStateToProps,mapDispatchToProps)(Login)

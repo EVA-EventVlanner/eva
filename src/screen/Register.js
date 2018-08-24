@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import {StyleSheet, Text} from 'react-native';
 import { Container, Content, Form, Item, Input, Label, Button, Icon, Card, CardItem, Body } from 'native-base';
-
+import axios from 'axios'
 class Register extends Component{
    constructor(props){
       super(props)
@@ -20,7 +20,6 @@ class Register extends Component{
       this.setState({
          name: text
       })
-      console.log(this.state.name)
    }
 
    handleChangeEmail(text){
@@ -60,8 +59,23 @@ class Register extends Component{
    Submit(e){
       e.preventDefault();
       console.log("INI HASIL: ", this.state)
-
+      let obj = {
+        name: this.state.name,
+        username: this.state.username,
+        email: this.state.email,
+        password: this.state.password
+      }
       //Send state to db
+      console.log(this.props)
+      axios.post('https://eva-server.ariefardi.xyz/users/register', obj)
+      .then(({data})=> {
+        console.log(data)
+        this.props.navigation.navigate('Login')
+        alert('Register Success')
+      })
+      .catch(err=> {
+        alert(err.message)
+      })
    }
 
    render() {

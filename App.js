@@ -5,6 +5,7 @@ import LoginScreen from './src/screen/Login';
 import RegisterScreen from './src/screen/Register'
 import HomeScreen from './src/screen/Home'
 import MyEventScreen from './src/screen/MyEvents'
+import MyProfileScreen from './src/screen/MyProfile'
 import {createStackNavigator, createDrawerNavigator} from 'react-navigation';
 
 const DrawerBar = createDrawerNavigator({
@@ -20,6 +21,13 @@ const DrawerBar = createDrawerNavigator({
     screen: MyEventScreen,
     navigationOptions: {
       title : 'My Events',
+      headerTintColor: 'white',
+    }
+  },
+  MyProfile: {
+    screen: MyProfileScreen,
+    navigationOptions: {
+      title : 'My Profile',
       headerTintColor: 'white',
     }
   },
@@ -52,6 +60,7 @@ const StackNav = createStackNavigator({
     headerStyle: {
       backgroundColor: "#009BD2"
     },
+    headerLeft: null
   },
 });
 
