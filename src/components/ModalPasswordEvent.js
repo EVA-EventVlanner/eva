@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
-import {Modal, Text, TouchableOpacity, View, StyleSheet} from 'react-native';
-import {Button, Icon, Item, Input, Body, Left, Right} from 'native-base';
+import {Modal, TouchableOpacity, View, StyleSheet} from 'react-native';
+import {Button, Icon, Item, Input, Body, Left, Right, Text} from 'native-base';
 // create a component
 class ModalPasswordEvent extends Component {
     state = {
@@ -10,6 +10,13 @@ class ModalPasswordEvent extends Component {
     
     setModalVisible(visible) {
     this.setState({modalVisible: visible});
+    }
+    goToDetail() {
+        // console.log(this.props.navigation.navigate())
+        this.setState({
+            modalVisible: false
+        })
+        this.props.navigation.navigate('DetailBudget')
     }
     render() {
         return (
@@ -23,15 +30,15 @@ class ModalPasswordEvent extends Component {
                 }}>
                 <View style={{marginTop: 200}}>
                 <Item  > 
-                    <Input color={'grey'} placeholder="Underline Textbox" />
+                    <Input color={'grey'} placeholder="Input password" />
                 </Item>
-                    <Button color={'white'} style={{width:50, marginTop:10}} onPress={() => {
-                        this.setModalVisible(!this.state.modalVisible)
+                    <Button color={'white'} style={{width:70, marginTop:10, marginLeft:'70%'}} onPress={() => {
+                        this.goToDetail()
                     }} >
                     <Text 
                     style={{alignContent:'center', 
                     alignItems:'center',
-                    padding:10}} > 
+                    padding:20}} > 
                     Join 
                     </Text>
                     </Button>

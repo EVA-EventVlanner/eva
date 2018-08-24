@@ -11,6 +11,7 @@ class CardEvent extends Component {
     render() {
         const item = this.props.item
         const imgUrl = item.imageUrl
+        const navigation = this.props.navigation
         return (
             <Card style={{flex: 0}}>
                   <CardItem>
@@ -31,7 +32,7 @@ class CardEvent extends Component {
                   </CardItem>
                   <CardItem>
                   <Left>
-                      <ModalPasswordEvent />
+                      <ModalPasswordEvent navigation={navigation} />
                   </Left>
                   </CardItem>
                </Card>
