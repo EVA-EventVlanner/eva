@@ -17,7 +17,7 @@ class CardEvent extends Component {
                   <Left>
                      <Body>
                         <Text> {item.eventName} </Text>
-                        <Text note>Creator: {item.admin.username} </Text>
+                        <Text note>Creator : {item.admin.name} </Text>
                      </Body>
                   </Left>
                   </CardItem>

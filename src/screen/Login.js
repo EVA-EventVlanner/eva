@@ -24,14 +24,14 @@ class Login extends Component{
    }
 
    handleChangeUsername(text){
-      console.log(text)
+      // console.log(text)
       this.setState({
          username: text
       })
    }
 
    handleChangePassword(text){
-      console.log(text)
+      // console.log(text)
       this.setState({
          password: text
       })
@@ -61,7 +61,7 @@ class Login extends Component{
         const {data} = await axios.post('https://eva-server.ariefardi.xyz/users/login', obj)
         // console.log(data)
         AsyncStorage.setItem("token", `${data.token}`)
-        AsyncStorage.setItem("token"), `${data.found._id}`
+        AsyncStorage.setItem("userId", `${data.found._id}`)
         let temp = {
           token: data.token,
           userId: data.found._id

@@ -29,3 +29,21 @@ export function setTokenToState (payload) {
         payload: payload
     }
 }
+
+export function fetchingDataUser (token) {
+    return (dispatch) => {
+        let id = store.getState().eventReducers.userId
+        axios.get('https://eva-server.ariefardi.xyz/users/'+id)
+        .then(({data})=> {
+            console.log(data.user, ' ini data user')
+            return dispatch(setUserToState(data.user))
+        })
+    }
+}
+
+export function setUserToState (payload) {
+    return {
+        type: 'SET_STATE_USER',
+        payload
+    }
+}

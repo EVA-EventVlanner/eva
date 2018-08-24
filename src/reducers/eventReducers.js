@@ -1,7 +1,8 @@
 const initialState = {
     events: [],
     token: '',
-    userId: ''
+    userId: '',
+    user: []
 }
 
 const eventReducer = (state = initialState, action) => {
@@ -16,6 +17,13 @@ const eventReducer = (state = initialState, action) => {
             ...state,
             token: action.payload.token,
             userId: action.payload.userId
+        }
+    }
+    if (action.type==="SET_STATE_USER") {
+        console.log(action.payload, ' ini action. payload')
+        return {
+            ...state,
+            user: action.payload
         }
     }
     return state
