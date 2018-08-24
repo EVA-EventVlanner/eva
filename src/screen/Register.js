@@ -17,14 +17,13 @@ class Register extends Component{
    }
 
    handleChangeName(text){
-      console.log(text)
       this.setState({
          name: text
       })
+      console.log(this.state.name)
    }
 
    handleChangeEmail(text){
-      console.log(text)
       this.setState({
          email: text
       })
@@ -78,15 +77,15 @@ class Register extends Component{
                         <Form style={{width:'100%'}}>
                            <Item floatingLabel>
                               <Label>Name</Label>
-                              <Input name="name" value={this.state.username} onChangeText={(text)=> this.handleChangeName(text)} />
+                              <Input name="name" onChangeText={(text)=> this.handleChangeName(text)} />
                            </Item>
                            <Item floatingLabel>
                               <Label>Email</Label>
-                              <Input name="email" value={this.state.username} onChangeText={(text)=> this.handleChangeEmail(text)} />
+                              <Input name="email" onChangeText={(text)=> this.handleChangeEmail(text)} />
                            </Item>
                            <Item floatingLabel>
                               <Label>Username</Label>
-                              <Input name="username" value={this.state.username} onChangeText={(text)=> this.handleChangeUsername(text)} />
+                              <Input name="username" onChangeText={(text)=> this.handleChangeUsername(text)} />
                            </Item>
                            <Item floatingLabel last>
                               <Label>Password</Label>

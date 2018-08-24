@@ -14,7 +14,6 @@ const DrawerBar = createDrawerNavigator({
       drawerLabel: 'Home',
       title : 'Home',
       headerTintColor: 'white',
-      headerLeft: null
     }
   },
   MyEvents: {
@@ -24,6 +23,10 @@ const DrawerBar = createDrawerNavigator({
       headerTintColor: 'white',
     }
   },
+}, {
+  navigationOptions: {
+    drawerIcon: 'md-home',
+  }
 })
 
 const StackNav = createStackNavigator({
@@ -48,7 +51,7 @@ const StackNav = createStackNavigator({
   navigationOptions: {
     headerStyle: {
       backgroundColor: "#009BD2"
-    }
+    },
   },
 });
 
