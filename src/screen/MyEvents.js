@@ -1,13 +1,19 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, AsyncStorage, Button } from 'react-native';
 
 // create a component
 class MyEvents extends Component {
+    async componentDidMount () {
+        const token = await AsyncStorage.getItem('token')
+        console.log('ini token', token)
+        console.log('Component did mount')
+    }
     render() {
         return (
             <View style={styles.container}>
                 <Text>MyEvents</Text>
+                <Button style={{width:100}} title={'triggerToken'} />  
             </View>
         );
     }

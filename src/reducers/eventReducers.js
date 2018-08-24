@@ -1,5 +1,7 @@
 const initialState = {
-    events: []
+    events: [],
+    token: '',
+    userId: ''
 }
 
 const eventReducer = (state = initialState, action) => {
@@ -7,6 +9,13 @@ const eventReducer = (state = initialState, action) => {
         return {
             ...state,
             events: action.payload
+        }
+    }
+    if (action.type==="SET_STATE_TOKEN") {
+        return {
+            ...state,
+            token: action.payload.token,
+            userId: action.payload.userId
         }
     }
     return state

@@ -52,6 +52,7 @@ const StackNav = createStackNavigator({
     headerStyle: {
       backgroundColor: "#009BD2"
     },
+    headerLeft: null
   },
 });
 

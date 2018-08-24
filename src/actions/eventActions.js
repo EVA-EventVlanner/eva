@@ -17,3 +17,15 @@ export function setEventsState (payload) {
         payload: payload
     }
 }
+export function saveToken (obj) {
+    return (dispatch)=> {
+        return dispatch(setTokenToState(obj))
+    }
+}
+
+export function setTokenToState (payload) {
+    return {
+        type: 'SET_STATE_TOKEN',
+        payload: payload
+    }
+}
