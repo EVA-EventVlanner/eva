@@ -2,21 +2,56 @@
 import React, { Component } from 'react';
 import {Modal, TouchableOpacity, View, StyleSheet} from 'react-native';
 import {Button, Icon, Item, Input, Body, Left, Right, Text} from 'native-base';
+import axios from 'axios'
 // create a component
 class ModalPasswordEvent extends Component {
     state = {
         modalVisible: false,
+        password: null
       };
     
-    setModalVisible(visible) {
+    setModalVisible (visible) {
     this.setState({modalVisible: visible});
     }
-    goToDetail() {
-        // console.log(this.props.navigation.navigate())
+    onchangePassword (text) {
         this.setState({
-            modalVisible: false
+            password: text
         })
-        this.props.navigation.navigate('DetailBudget')
+    }
+    goToDetail () {
+        // console.log(this.props.navigation.navigate())
+        // console.log('this login working', this.state.password)
+        // console.log('event id', this.props.eventId)
+        // console.log('ini eventnya', this.props.event)
+        if (!this.state.password) {
+            alert('Password can\'t be null')
+        }
+        else {
+            let password = this.state.password
+            let eventId = this.props.eventId
+            let event = this.props.event
+            console.log(password, 'ini loh')
+            axios.post(`https://eva-server.ariefardi.xyz/events/${eventId}/login`, {
+                password
+            })
+            .then(({data})=> {
+                if (data.message==='Password is wrong') {
+                    alert(data.message)
+                }
+                else {
+                    alert('Berhasil Login')
+                    this.setState({
+                        modalVisible: false
+                    })
+                    this.props.navigation.navigate('DetailBudget', {
+                        id:event
+                    })
+                }
+            })
+            .catch(err=> {
+                alert('Terjadi error tidak terduga')
+            })
+        }
     }
     render() {
         return (
@@ -30,7 +65,7 @@ class ModalPasswordEvent extends Component {
                 }}>
                 <View style={{marginTop: 200}}>
                 <Item  > 
-                    <Input color={'grey'} placeholder="Input password" />
+                    <Input color={'grey'} placeholder="Input password" onChangeText={(text) => this.onchangePassword(text)} />
                 </Item>
                     <Button color={'white'} style={{width:70, marginTop:10, marginLeft:'70%'}} onPress={() => {
                         this.goToDetail()

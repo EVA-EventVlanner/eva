@@ -24,6 +24,13 @@ const HomeStack = createStackNavigator ({
       headerTintColor: 'white'
     }
   }
+},
+{
+  navigationOptions: {
+    headerStyle: {
+      backgroundColor: "#009BD2"
+    }
+  },
 })
 const DrawerBar = createDrawerNavigator({
   Home: HomeStack,

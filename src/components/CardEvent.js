@@ -32,7 +32,7 @@ class CardEvent extends Component {
                   </CardItem>
                   <CardItem>
                   <Left>
-                      <ModalPasswordEvent navigation={navigation} />
+                      <ModalPasswordEvent navigation={navigation} eventId={item._id} event={item} />
                   </Left>
                   </CardItem>
                </Card>
