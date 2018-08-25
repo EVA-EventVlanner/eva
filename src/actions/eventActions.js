@@ -19,6 +19,7 @@ export function setEventsState (payload) {
 }
 export function saveToken (obj) {
     return (dispatch)=> {
+        console.log("from saveToken:", obj)
         return dispatch(setTokenToState(obj))
     }
 }
@@ -30,10 +31,11 @@ export function setTokenToState (payload) {
     }
 }
 
-export function fetchingDataUser (token) {
+export function fetchingDataUser (userId) {
+    let id = store.getState().eventReducers.userId
+    console.log("ini dri fetching id: ", id)
     return (dispatch) => {
-        let id = store.getState().eventReducers.userId
-        axios.get('https://eva-server.ariefardi.xyz/users/'+id)
+        axios.get('https://eva-server.ariefardi.xyz/users/'+userId)
         .then(({data})=> {
             console.log(data.user, ' ini data user')
             return dispatch(setUserToState(data.user))

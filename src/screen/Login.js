@@ -86,11 +86,13 @@ class Login extends Component{
                   <CardItem>
                      <Body>
                         <Form style={{width:'100%'}}>
-                           <Item >
-                              <Input name="Username" placeholder={'Username'} onChangeText={(text)=> this.handleChangeUsername(text)} />
+                           <Item floatingLabel>
+                              <Label>Username</Label>
+                              <Input name="Username" onChangeText={(text)=> this.handleChangeUsername(text)} />
                            </Item>
-                           <Item>
-                              <Input secureTextEntry={this.state.hidePassword} name="password" placeholder={'Password'} onChangeText={(text)=> this.handleChangePassword(text)}  />
+                           <Item floatingLabel last>
+                              <Label>Password</Label>
+                              <Input secureTextEntry={this.state.hidePassword} name="password"  onChangeText={(text)=> this.handleChangePassword(text)}  />
                               <Icon name={this.state.eye} onPress={(e) => this.toggleDisplay(e)} color="white"/> 
                            </Item>
                         </Form>
