@@ -20,6 +20,7 @@ export function saveToken(obj) {
   return dispatch => {
     return dispatch(setTokenToState(obj));
   };
+
 }
 
 export function setTokenToState(payload) {
