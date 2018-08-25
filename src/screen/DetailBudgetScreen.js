@@ -15,6 +15,8 @@ import {
   Body,
   Right
 } from "native-base";
+import ItemToBuy from "../components/ItemToBuy";
+import ModalAddItem from "../components/ModalAddItem";
 // create a component
 class DetailBudgetScreen extends Component {
   render() {
@@ -22,89 +24,84 @@ class DetailBudgetScreen extends Component {
       const { navigation } = this.props;
       const eventDetail = navigation.getParam("id");
       const imageUrl = eventDetail.imageUrl;
-      console.log(eventDetail, " ini event detail");
+      console.log(imageUrl, " ini event detail");
       return (
         <ScrollView>
-          <Container>
-            <CardItem style={{ height: 200 }}>
-              <Image
-                source={{ uri: imageUrl }}
-                style={{ height: 200, width: null, flex: 1 }}
-              />
+          <Image
+            source={{
+              uri: imageUrl
+            }}
+            style={{ height: 202, width: null, flex: 1 }}
+          />
+          <Card style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }}>
+            <CardItem style={{ height: 100 }}>
+              <Left>
+                <Body>
+                  <Text> {eventDetail.eventName} </Text>
+                  <Text note> {eventDetail.location} </Text>
+                </Body>
+              </Left>
             </CardItem>
-            <Card style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }}>
-              <CardItem style={{ height: 80 }}>
-                <Left>
-                  <Body>
-                    <Text> {eventDetail.eventName} </Text>
-                    <Text note> {eventDetail.location} </Text>
-                  </Body>
-                </Left>
-              </CardItem>
-              <CardItem>
-                <Left>
-                  <Button
-                    rounded
-                    large
-                    style={{ width: 200, height: 35, marginLeft: -120 }}
-                  >
-                    <Text style={{ fontSize: 12, marginLeft: 100 }}>
-                      {" "}
-                      POSTED BY{" "}
-                    </Text>
-                  </Button>
-                </Left>
-              </CardItem>
-              <CardItem>
-                <Left>
-                  <Thumbnail
-                    source={{
-                      uri: eventDetail.admin.imageProfile
-                    }}
-                  />
-                  <Body>
-                    <Text>{eventDetail.admin.name}</Text>
-                    <Text>{eventDetail.admin.role[0]}</Text>
-                  </Body>
-                </Left>
-              </CardItem>
-              <CardItem>
-                <Left>
-                  <Button
-                    onPress={() => {
-                      this.setModalVisible(true);
-                    }}
-                    disabled
-                    transparent
-                    textStyle={{ color: "#87838B" }}
-                  >
-                    <Icon name="md-cash" />
-                    <Text style={{ color: "#1c82f0", marginLeft: -9 }}>
-                      Budget : Rp .{" " + eventDetail.budget.toLocaleString()}
-                    </Text>
-                  </Button>
-                </Left>
-                <Right>
-                  <Button
-                    onPress={() => {
-                      this.setModalVisible(true);
-                    }}
-                    disabled
-                    rounded
-                    style={{ width: 120 }}
-                  >
-                    <Icon
-                      style={{ marginLeft: 50, paddingRight: 0 }}
-                      name="md-cart"
-                    />
-                    <Text style={{ marginRight: 30, paddingLeft: 0 }}>
-                      Add Item
-                    </Text>
-                  </Button>
-                </Right>
-              </CardItem>
-            </Card>
-          </Container>
+            <CardItem>
+              <Left>
+                <Button
+                  rounded
+                  large
+                  style={{ width: 200, height: 35, marginLeft: -120 }}
+                >
+                  <Text style={{ fontSize: 12, marginLeft: 100 }}>
+                    {" "}
+                    POSTED BY{" "}
+                  </Text>
+                </Button>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Thumbnail source={{ uri: eventDetail.admin.imageProfile }} />
+                <Body>
+                  <Text>{eventDetail.admin.name}</Text>
+                  <Text>{eventDetail.admin.role[0]}</Text>
+                </Body>
+              </Left>
+            </CardItem>
+            <CardItem>
+              <Left>
+                <Button
+                  onPress={() => {
+                    this.setModalVisible(true);
+                  }}
+                  disabled
+                  transparent
+                  textStyle={{ color: "#87838B" }}
+                >
+                  <Icon name="md-cash" />
+                  <Text style={{ color: "#1c82f0", marginLeft: -9 }}>
+                    Budget : Rp .{" " + eventDetail.budget.toLocaleString()}
+                  </Text>
+                </Button>
+              </Left>
+              <Right>
+                <ModalAddItem />
+              </Right>
+            </CardItem>
+          </Card>
+          <ScrollView horizontal>
+            {eventDetail.items.map((item, index) => (
+              <ItemToBuy key={index} item={item} />
+            ))}
+            {eventDetail.items.map((item, index) => (
+              <ItemToBuy key={index} item={item} />
+            ))}
+          </ScrollView>
+          <ScrollView horizontal>
+            {eventDetail.items.map((item, index) => (
+              <ItemToBuy key={index} item={item} />
+            ))}
+            {eventDetail.items.map((item, index) => (
+              <ItemToBuy key={index} item={item} />
+            ))}
+          </ScrollView>
         </ScrollView>
       );
     }
