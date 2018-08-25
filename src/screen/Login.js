@@ -68,9 +68,10 @@ class Login extends Component{
         }
         this.props.navigation.navigate('Home')
         this.props.saveToken(temp)
-        alert(data.message)
+        // alert(data.message)
       } catch(err) {
         alert('there is some error')
+        console.log('error login')
       }
    }
 

@@ -30,7 +30,7 @@ import {fetchingDataEvent} from '../actions/eventActions'
            )
     }
    } 
- }
+ } 
 
 const mapStateToProps = (state) => {
     return {
