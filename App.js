@@ -6,9 +6,9 @@ import RegisterScreen from './src/screen/Register'
 import HomeScreen from './src/screen/Home'
 import MyEventScreen from './src/screen/MyEvents'
 import MyProfileScreen from './src/screen/MyProfile'
+import DetailBudgetScreen from './src/screen/DetailBudgetScreen'
 import {createStackNavigator, createDrawerNavigator} from 'react-navigation';
-
-const DrawerBar = createDrawerNavigator({
+const HomeStack = createStackNavigator ({
   Home: {
     screen: HomeScreen,
     navigationOptions: {
@@ -17,6 +17,23 @@ const DrawerBar = createDrawerNavigator({
       headerTintColor: 'white',
     }
   },
+  DetailBudget: {
+    screen: DetailBudgetScreen,
+    navigationOptions: {
+      title: 'Detail',
+      headerTintColor: 'white'
+    }
+  }
+},
+{
+  navigationOptions: {
+    headerStyle: {
+      backgroundColor: "#009BD2"
+    }
+  },
+})
+const DrawerBar = createDrawerNavigator({
+  Home: HomeStack,
   MyEvents: {
     screen: MyEventScreen,
     navigationOptions: {

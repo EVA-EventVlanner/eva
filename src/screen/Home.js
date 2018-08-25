@@ -22,7 +22,7 @@ import {fetchingDataEvent} from '../actions/eventActions'
           data={this.props.events}
           renderItem={({ item, index }) => {
             return (
-               <CardEvent key={index} index={index} item={item} />       
+               <CardEvent navigation={this.props.navigation} key={index} index={index} item={item} />       
             )
            }}
            keyExtractor={(item) => item._id}
