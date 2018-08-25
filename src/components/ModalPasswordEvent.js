@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 // create a component
 class ModalPasswordEvent extends Component {
+<<<<<<< HEAD
   state = {
     modalVisible: false,
     password: null
@@ -55,6 +56,51 @@ class ModalPasswordEvent extends Component {
         .catch(err => {
           alert("Terjadi error tidak terduga");
         });
+=======
+    state = {
+        modalVisible: false,
+      };
+    
+    setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+    }
+    render() {
+        return (
+            <View style={{marginTop: 22}}>
+                <Modal
+                animationType="slide"
+                transparent={false}
+                visible={this.state.modalVisible}
+                onRequestClose={() => {
+                    this.setModalVisible(!this.state.modalVisible)
+                }}>
+                <View style={{marginTop: 200}}>
+                <Item  > 
+                    <Input color={'grey'} placeholder="Underline Textbox" />
+                </Item>
+                    <Button color={'white'} style={{width:50, marginTop:10}} onPress={() => {
+                        this.setModalVisible(!this.state.modalVisible)
+                    }} >
+                    <Text 
+                    style={{alignContent:'center', 
+                    alignItems:'center',
+                    padding:10}} > 
+                    Join 
+                    </Text>
+                    </Button>
+                </View>
+                </Modal>
+                <Button
+                    onPress={() => {
+                    this.setModalVisible(true);
+                    }}
+                    transparent textStyle={{color: '#87838B'}}>
+                    <Icon style={{marginLeft:5,marginRight:5}} name="md-open" />
+                    <Text style={{color:'#87838B'}} >Join as commitee</Text>
+                </Button>
+            </View>
+        );
+>>>>>>> c94e42a82635c6f8d8f0720c0d1d393cb0038f42
     }
   }
   render() {
