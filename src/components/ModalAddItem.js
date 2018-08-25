@@ -9,10 +9,18 @@ import {
   Body,
   Left,
   Right,
-  Text
+  Text,
+  Platform
 } from "native-base";
 import ImagePicker from "react-native-image-picker";
 import storageRef from "../firebase/firebase";
+import RNFetchBlob from "react-native-fetch-blob";
+// import RNFetchBlob from "../../node_modules/react-native-fetch-blob/index";
+const Blob = RNFetchBlob.polyfill.Blob;
+const fs = RNFetchBlob.fs;
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+window.Blob = Blob;
+
 // create a component
 class ModalAddItem extends Component {
   state = {
@@ -28,6 +36,32 @@ class ModalAddItem extends Component {
       password: text
     });
   }
+  uploadImage(uri, mime = "application/octet-stream") {
+    return new Promise((resolve, reject) => {
+      const uploadUri =
+        Platform.OS === "ios" ? uri.replace("file://", "") : uri;
+      let uploadBlob = null;
+      const imageRef = storageRef.ref("item_photos/" + response.fileName);
+      fs.readFile(uploadUri, "base64")
+        .then(data => {
+          return Blob.build(data, { type: `${mime};BASE64` });
+        })
+        .then(blob => {
+          uploadBlob = blob;
+          return imageRef.put(blob, { contentType: mime });
+        })
+        .then(() => {
+          uploadBlob.close();
+          return imageRef.getDownloadURL();
+        })
+        .then(url => {
+          resolve(url);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
   openGallery() {
     console.log("openGallery");
     var options = {
@@ -40,7 +74,6 @@ class ModalAddItem extends Component {
     };
     ImagePicker.showImagePicker(options, response => {
       console.log("Response = ", response);
-
       if (response.didCancel) {
         console.log("User cancelled image picker");
       } else if (response.error) {
@@ -48,14 +81,18 @@ class ModalAddItem extends Component {
       } else if (response.customButton) {
         console.log("User tapped custom button: ", response.customButton);
       } else {
-        let source = { uri: response.uri };
+        // let source = { uri: response.uri };
 
         // You can also display the image using data:
         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        this.setState({
-          avatarSource: source
-        });
+        // console.log(source, " ini source");
+        this.uploadImage(response.uri)
+          .then(url => {
+            console.log(url);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     });
   }
