@@ -11,11 +11,14 @@ import {
   Right,
   Text
 } from "native-base";
+import ImagePicker from "react-native-image-picker";
+import storageRef from "../firebase/firebase";
 // create a component
 class ModalAddItem extends Component {
   state = {
     modalVisible: false,
-    password: null
+    password: null,
+    avatarSource: ""
   };
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
@@ -23,6 +26,37 @@ class ModalAddItem extends Component {
   onchangePassword(text) {
     this.setState({
       password: text
+    });
+  }
+  openGallery() {
+    console.log("openGallery");
+    var options = {
+      title: "Select Avatar",
+      customButtons: [{ name: "fb", title: "Choose Photo from Facebook" }],
+      storageOptions: {
+        skipBackup: true,
+        path: "images"
+      }
+    };
+    ImagePicker.showImagePicker(options, response => {
+      console.log("Response = ", response);
+
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+      } else {
+        let source = { uri: response.uri };
+
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+        this.setState({
+          avatarSource: source
+        });
+      }
     });
   }
   render() {
@@ -45,6 +79,13 @@ class ModalAddItem extends Component {
               />
             </Item>
           </View>
+          <Button
+            onPress={() => {
+              this.openGallery();
+            }}
+          >
+            <Text> Open gallery </Text>
+          </Button>
         </Modal>
         <Button
           onPress={() => {
