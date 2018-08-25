@@ -10,26 +10,6 @@ class MyProfile extends Component {
     constructor(props){
         super(props)
         this.state ={
-            // fakeDataArr:[{
-            //     title: 'bla bla',
-            //     content: 'akshdlkajsh dkljahdslkjah ldkshadhlah ldskahldhka sjhdlk jksalhdkja shdlja hsljkhdlaj'
-            // },
-            // {
-            //     title: 'bla bla 2',
-            //     content: 'akshdlkajsh dkljahdslkjah ldkshadhlah ldskahldhka sjhdlk jksalhdkja shdlja hsljkhdlaj'
-            // },
-            // {
-            //     title: 'bla bla 3',
-            //     content: 'akshdlkajsh dkljahdslkjah ldkshadhlah ldskahldhka sjhdlk jksalhdkja shdlja hsljkhdlaj'
-            // },
-            // {
-            //     title: 'bla bla 4',
-            //     content: 'akshdlkajsh dkljahdslkjah ldkshadhlah ldskahldhka sjhdlk jksalhdkja shdlja hsljkhdlaj'
-            // },
-            // {
-            //     title: 'bla bla 5',
-            //     content: 'akshdlkajsh dkljahdslkjah ldkshadhlah ldskahldhka sjhdlk jksalhdkja shdlja hsljkhdlaj'
-            // }]
             fakeData:[{
                 id:"1",
                 title: "Joget Joget Di Asgard",

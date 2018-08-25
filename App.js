@@ -69,10 +69,10 @@ const StackNav = createStackNavigator({
       headerTintColor: '#fff',
     }
   },
-  Home: DrawerBar
+  Home: MyEventScreen
 }, 
 {
-  initialRouteName: 'Login',
+  initialRouteName: 'Home',
   navigationOptions: {
     headerStyle: {
       backgroundColor: "#009BD2"
