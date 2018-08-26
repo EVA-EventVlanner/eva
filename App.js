@@ -12,7 +12,7 @@ const HomeStack = createStackNavigator ({
   Home: {
     screen: HomeScreen,
     navigationOptions: {
-      drawerLabel: 'Home',
+      // drawerLabel: 'Home',
       title : 'Home',
       headerTintColor: 'white',
     }
