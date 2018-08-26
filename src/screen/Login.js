@@ -60,6 +60,7 @@ class Login extends Component{
         }
         const {data} = await axios.post('https://eva-server.ariefardi.xyz/users/login', obj)
         // console.log(data)
+        console.log('----------> BARU MASUK nih abis di login')
         AsyncStorage.setItem("token", `${data.token}`)
         AsyncStorage.setItem("userId", `${data.found._id}`)
         let temp = {
@@ -71,6 +72,7 @@ class Login extends Component{
         alert(data.message)
       } catch(err) {
         alert('there is some error')
+        console.log(err)
       }
    }
 
@@ -87,11 +89,11 @@ class Login extends Component{
                      <Body>
                         <Form style={{width:'100%'}}>
                            <Item floatingLabel>
-                              <Label>Username</Label>
+                              <Label>Username lu</Label>
                               <Input name="Username" onChangeText={(text)=> this.handleChangeUsername(text)} />
                            </Item>
                            <Item floatingLabel last>
-                              <Label>Password</Label>
+                              <Label>Password ajah</Label>
                               <Input secureTextEntry={this.state.hidePassword} name="password"  onChangeText={(text)=> this.handleChangePassword(text)}  />
                               <Icon name={this.state.eye} onPress={(e) => this.toggleDisplay(e)} color="white"/> 
                            </Item>
@@ -99,9 +101,9 @@ class Login extends Component{
                      </Body>
                   </CardItem>
                   <CardItem style={{flex:1, justifyContent:'center'}}>
-                     <Text> Don't have an account? </Text>
+                     <Text> Ga punya akun ?  </Text>
                      <TouchableOpacity onPress={() => navigate('Register')} >
-                        <Text style={{color:"#009BD2"}}>Register Here</Text>
+                        <Text style={{color:"#009BD2"}}> Bikin dulu sini </Text>
                      </TouchableOpacity>
                   </CardItem>
                   <CardItem footer>
