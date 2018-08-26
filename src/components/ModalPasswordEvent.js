@@ -103,7 +103,7 @@ class ModalPasswordEvent extends Component {
           textStyle={{ color: "#87838B" }}
         >
           <Icon style={{ marginLeft: 5, marginRight: 5 }} name="md-open" />
-          <Text style={{ color: "#87838B" }}>Join as commite</Text>
+          <Text style={{ color: "#87838B" }}>Join as commitee</Text>
         </Button>
       </View>
     );

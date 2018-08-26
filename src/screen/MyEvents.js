@@ -4,7 +4,7 @@ import { StyleSheet, AsyncStorage, TouchableOpacity, FlatList } from 'react-nati
 import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Right, Left, Body } from 'native-base';
 import {connect} from 'react-redux'
 import {fetchingDataUser} from '../actions/eventActions'
-
+import ModalEvent from '../components/ModalAddEvent'
 // create a component
 class MyEvents extends Component {
     constructor(props){
@@ -58,18 +58,18 @@ class MyEvents extends Component {
                         data={this.state.anotherFake}
                         renderItem={({ item, index }) => {
                             return (
-                            <Card>
-                                <CardItem>
+                            <Card style={{ borderRadius: 10 }}>
+                                <CardItem bordered style={{ borderTopLeftRadius: 8, borderTopRightRadius: 8, borderBottomWidth:0, borderTopWidth:1.5, borderWidth:2,  borderColor: item.status === "admin" ? '#BA55D3': '#009BD2', }}>
                                     <Left>
                                         <Text style={{fontWeight:"600"}}>{item.title}</Text>
                                     </Left>
                                     <Right>
-                                        <Text style={{textAlign:'right',  color: item.status === "admin" ? 'red': 'blue' }}> <Text style={{fontWeight:"500"}}>Status: </Text>{item.status}</Text>
+                                        <Text style={{textAlign:'right',  color: item.status === "admin" ? '#BA55D3': '#009BD2' }}> <Text style={{fontWeight:"500"}}>Status: </Text>{item.status}</Text>
                                     </Right>
                                 </CardItem>
-                                <CardItem>
+                                <CardItem bordered  style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, borderTopWidth: 1, borderBottomWidth:1.5, borderWidth: 2, borderColor: item.status === "admin" ? '#BA55D3': '#009BD2', }}>
                                     <Left>
-                                        <Thumbnail large square source={{uri: item.image}}/>
+                                        <Thumbnail large square source={{uri: item.image}} style={{flex:1}}/>
                                     </Left>
                                     <Right>
                                         <Button small rounded style={{padding:0, backgroundColor:'#009BD2'}}>
@@ -83,20 +83,7 @@ class MyEvents extends Component {
                         keyExtractor={(item) => item.id}
                         />
                     <Right> 
-                        <TouchableOpacity
-                            style={{
-                                flex:1,
-                                borderWidth:1,
-                                borderColor:'rgba(0,0,0,0.2)',
-                                alignItems:'center',
-                                justifyContent:'center',
-                                width:60,
-                                height:60,
-                                backgroundColor:'#009BD2',
-                                borderRadius:100}}
-                            >
-                            <Icon style={{ fontSize: 30, color: "white"}} name="add" />
-                        </TouchableOpacity>
+                        <ModalEvent/>
                     </Right> 
                 </Content>
           </Container>
