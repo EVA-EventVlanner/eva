@@ -89,11 +89,11 @@ class Login extends Component{
                      <Body>
                         <Form style={{width:'100%'}}>
                            <Item floatingLabel>
-                              <Label>Username lu</Label>
+                              <Label>Username</Label>
                               <Input name="Username" onChangeText={(text)=> this.handleChangeUsername(text)} />
                            </Item>
                            <Item floatingLabel last>
-                              <Label>Password ajah</Label>
+                              <Label>Password</Label>
                               <Input secureTextEntry={this.state.hidePassword} name="password"  onChangeText={(text)=> this.handleChangePassword(text)}  />
                               <Icon name={this.state.eye} onPress={(e) => this.toggleDisplay(e)} color="white"/> 
                            </Item>
@@ -101,9 +101,9 @@ class Login extends Component{
                      </Body>
                   </CardItem>
                   <CardItem style={{flex:1, justifyContent:'center'}}>
-                     <Text> Ga punya akun ?  </Text>
+                     <Text> Don't have an account? </Text>
                      <TouchableOpacity onPress={() => navigate('Register')} >
-                        <Text style={{color:"#009BD2"}}> Bikin dulu sini </Text>
+                        <Text style={{color:"#009BD2"}}>Register Here</Text>
                      </TouchableOpacity>
                   </CardItem>
                   <CardItem footer>

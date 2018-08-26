@@ -1,19 +1,23 @@
 //import liraries
 import React, { Component } from "react";
-import { View, StyleSheet, Modal, TouchableOpacity } from "react-native";
+import { View, ScrollView, AsyncStorage, StyleSheet, Modal, TouchableOpacity } from "react-native";
 import { Button, Icon, Item, Input, Body, Left, Right, Text, Form, Label, Card, CardItem } from "native-base";
 import axios from "axios";
+import {connect} from 'react-redux'
 
 // create a component
-class ModalAddItem extends Component {
-  state = {
-      modalVisible: false,
-      eventName: '',
-      password: '',
-      budget: '',
-      description: '',
-      imageUrl: ''
-  };
+class ModalAddEvent extends Component {
+  constructor(props){
+    super(props)
+      this.state = {
+        modalVisible: false,
+        eventName: '',
+        password: '',
+        budget: '',
+        description: '',
+        imageUrl: ''
+    };
+  }
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
@@ -49,13 +53,42 @@ class ModalAddItem extends Component {
       });
   }
 
-  onSubmit(e){
-      e.preventDefault();
+  async onSubmit(){
+    const token = await AsyncStorage.getItem('token')
+    if(this.state.eventName != '' && this.state.password != '' && this.state.description != '' && this.state.budget != '' && this.state.imageUrl !== ''){
+      let newData = {
+        eventName: this.state.eventName,
+        password: this.state.password,
+        budget: this.state.budget,
+        description: this.state.description,
+        imageUrl: this.state.imageUrl
+      }
+      this.setState({
+        eventName: '',
+        password: '',
+        budget: '',
+        description: '',
+        imageUrl: ''
+      });
+
+      const {data} = await axios.post('https://eva-server.ariefardi.xyz/events', newData, { headers:{token: token}})
+      console.log("Balik dari axios buat confirmation: ", data)
       this.setModalVisible(!this.state.modalVisible)
+    }
+    else{
+      alert("Please fill in all fields!")
+    }
   }
 
-  onCancel(e){
+  onCancel(){
       e.preventDefault();
+      this.setState({
+        eventName: '',
+        password: '',
+        budget: '',
+        description: '',
+        imageUrl: ''
+      });
       this.setModalVisible(!this.state.modalVisible)
   }
 
@@ -70,7 +103,7 @@ class ModalAddItem extends Component {
             this.setModalVisible(!this.state.modalVisible);
           }}
         >
-          <View style={{paddingTop: 80}}>
+          <ScrollView style={{paddingTop: 80}}>
             <Card>
                < CardItem>
                   <Form style={{width:'100%'}}>
@@ -99,18 +132,18 @@ class ModalAddItem extends Component {
                </ CardItem>
                <CardItem footer>
                   <Left>
-                     <Button style={{backgroundColor: "#8B008B"}} onPress={(e)=> this.onCancel(e) }>
+                     <Button style={{backgroundColor: "#8B008B"}} onPress={(e)=> this.onCancel() }>
                         <Text style={{color: "white", fontSize: 18}}>Cancel</Text>
                      </Button>
                   </Left>
                   <Right>
-                     <Button style={{backgroundColor: "#009BD2"}} onPress={(e)=>this.onSubmit(e)}>
+                     <Button style={{backgroundColor: "#009BD2"}} onPress={(e)=>this.onSubmit()}>
                         <Text style={{color: "white", fontSize: 18}}>Add Event</Text>
                      </Button>
                   </Right>
                </CardItem>
             </Card>
-          </View>
+          </ScrollView>
         </Modal>
          <TouchableOpacity
             style={{
@@ -144,4 +177,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default ModalAddItem;
+export default ModalAddEvent;

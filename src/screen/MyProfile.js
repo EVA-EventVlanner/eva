@@ -100,12 +100,8 @@ class MyProfile extends Component {
     }
 
     async componentDidMount(){
-        // // const token = await AsyncStorage.getItem('token')
-        // const userId = await AsyncStorage.getItem('userId')
-        // // // console.log("id: ", userId, " token: ", token)
-        // console.log("dari mount: ", userId)
-        // this.props.fetchingDataUser(userId)
-        // console.log("this props did mount")
+        this.props.getUserData()
+        console.log("this prop did mount: ")
     }
 
     renderHeaderDisini(data, expanded) {
@@ -141,49 +137,50 @@ class MyProfile extends Component {
         );
       }
     render() {
-        // console.log(this.props.events)
-        // if (this.props.events.length===0) {
-        //     return (
-        //         <ActivityIndicator style={{justifyContent:'center',flex: 1}} />
-        //     )
-        // }
-        // else {
+        console.log("dari profile: ", this.props)
+        let {name, imageProfile} = this.props.getUser
+        if (this.props.getUser.length===0) {
+            return (
+                <ActivityIndicator style={{justifyContent:'center',flex: 1}} />
+            )
+        }
+        else {
             return(
-            <Container>
-                <Content>
-                    <Card>
-                        <CardItem style={{justifyContent:'center'}}>
-                            <Text style={{textAlign:'center', fontSize:25, fontWeight:'500'}}> User's Name </Text>
-                        </CardItem>
-                        <CardItem style={{justifyContent:'center'}}>
-                            <Image  
-                            style={{
-                                alignSelf: 'center',
-                                height: 150,
-                                width: 150,
-                                borderWidth: 1,
-                                borderRadius: 75
-                            }}
-                            source={{uri: 'https://wiki.gamedetectives.net/images/thumb/d/dd/Sombra_skull.png/400px-Sombra_skull.png'}}
-                            resizeMode="cover"
-                            />
-                        </CardItem>
-                        <CardItem style={{justifyContent:'center'}}>
-                            <Button small rounded style={{padding:0, backgroundColor:'#009BD2'}}>
-                                <Text style={{color:'white', padding: 0}}>Edit Profile</Text>
-                            </Button>
-                        </CardItem>
-                    </Card>
-                    <Accordion
-                        dataArray={this.state.fakeData}
-                        renderHeader={this.renderHeaderDisini}
-                        renderContent={this.renderContentDisini}
-                    />
-                </Content>
-          </Container>
-        );
+                <Container>
+                    <Content>
+                        <Card>
+                            <CardItem style={{justifyContent:'center'}}>
+                                <Text style={{textAlign:'center', fontSize:25, fontWeight:'500'}}> {name} </Text>
+                            </CardItem>
+                            <CardItem style={{justifyContent:'center'}}>
+                                <Image  
+                                style={{
+                                    alignSelf: 'center',
+                                    height: 150,
+                                    width: 150,
+                                    borderWidth: 1,
+                                    borderRadius: 75
+                                }}
+                                source={{uri: imageProfile}}
+                                resizeMode="cover"
+                                />
+                            </CardItem>
+                            <CardItem style={{justifyContent:'center'}}>
+                                <Button small rounded style={{padding:0, backgroundColor:'#009BD2'}}>
+                                    <Text style={{color:'white', padding: 0}}>Edit Profile</Text>
+                                </Button>
+                            </CardItem>
+                        </Card>
+                        <Accordion
+                            dataArray={this.state.fakeData}
+                            renderHeader={this.renderHeaderDisini}
+                            renderContent={this.renderContentDisini}
+                        />
+                    </Content>
+            </Container>
+            );
+        }
     }
-    // }
 }
 
 // define your styles
@@ -198,12 +195,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
-      events : state.eventReducers.events
+      getUser : state.eventReducers.user
     }
   }
  const mapDispatchToProps = dispatch => {
   return {
-      fetchingDataUser: (userId) => dispatch(fetchingDataUser(userId))
+    getUserData: () => dispatch(fetchingDataUser())
   }
 }
 

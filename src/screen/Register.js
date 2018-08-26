@@ -111,7 +111,7 @@ class Register extends Component{
                   </CardItem>
                   <CardItem footer>
                      <Button block style={{backgroundColor: "#009BD2", width:"100%"}} onPress={(e)=>this.Submit(e)}>
-                        <Text style={{color: "white"}}>Register</Text>
+                        <Text style={{color: "white", fontSize: 18}}>Register</Text>
                      </Button>
                   </CardItem>
                </Card>

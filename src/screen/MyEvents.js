@@ -5,6 +5,7 @@ import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Righ
 import {connect} from 'react-redux'
 import {fetchingDataUser} from '../actions/eventActions'
 import ModalEvent from '../components/ModalAddEvent'
+
 // create a component
 class MyEvents extends Component {
     constructor(props){
@@ -32,9 +33,9 @@ class MyEvents extends Component {
         }
     }
     async componentDidMount () {
-        // const token = await AsyncStorage.getItem('token')
-        // console.log('ini token', token)
-        // this.props.fetchingDataUser()
+        const token = await AsyncStorage.getItem('token')
+        console.log('ini token dari myevent', token)
+        this.props.fetchingDataUser()
     }
     async triggerButton () {
         // const token = await AsyncStorage.getItem('token')
@@ -43,6 +44,7 @@ class MyEvents extends Component {
         // console.log('ini userId', userId)
     }
     render() {
+        console.log("ini dari event: " , this.props.events)
         return (
             <Container>
                 <Content>
