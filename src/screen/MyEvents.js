@@ -1,27 +1,92 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, AsyncStorage, Button } from 'react-native';
+import { StyleSheet, AsyncStorage, TouchableOpacity, FlatList } from 'react-native';
+import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Right, Left, Body } from 'native-base';
 import {connect} from 'react-redux'
 import {fetchingDataUser} from '../actions/eventActions'
+import ModalEvent from '../components/ModalAddEvent'
 // create a component
 class MyEvents extends Component {
+    constructor(props){
+        super(props)
+        this.state={
+            anotherFake:[
+                {
+                    id:'1',
+                    title: "Joget Joget Di BiFrost Bridge",
+                    image: 'https://vignette.wikia.nocookie.net/marvelmovies/images/1/16/Bifrost.jpg/revision/latest?cb=20110504130352',
+                    status: "member",
+                },
+                {
+                    id:'2',
+                    title: "Joget Joget Di Odin's Vault",
+                    status: "admin",
+                    image: 'https://vignette.wikia.nocookie.net/marvelmovies/images/b/b9/Odin%27s_Vault.png/revision/latest/scale-to-width-down/640?cb=20140216062716',
+                },
+                {
+                    id:"3",
+                    status: "admin",
+                    title: "Joget Joget Di Hall of Asgard",
+                    image: 'https://vignette.wikia.nocookie.net/marvelmovies/images/d/de/HallOfAsgard1-Thor.png/revision/latest/scale-to-width-down/640?cb=20140311045004',
+                }]
+        }
+    }
     async componentDidMount () {
-        const token = await AsyncStorage.getItem('token')
-        console.log('ini token', token)
-        this.props.fetchingDataUser()
+        // const token = await AsyncStorage.getItem('token')
+        // console.log('ini token', token)
+        // this.props.fetchingDataUser()
     }
     async triggerButton () {
-        const token = await AsyncStorage.getItem('token')
-        const userId = await AsyncStorage.getItem('userId')
-        console.log('ini token', token)
-        console.log('ini userId', userId)
+        // const token = await AsyncStorage.getItem('token')
+        // const userId = await AsyncStorage.getItem('userId')
+        // console.log('ini token', token)
+        // console.log('ini userId', userId)
     }
     render() {
         return (
-            <View style={styles.container}>
-                <Text>MyEvents</Text>
-                <Button style={{width:100}} title={'triggerToken'} onPress={this.triggerButton} />  
-            </View>
+            <Container>
+                <Content>
+                    <Card>
+                        <CardItem style={{justifyContent:'center'}}>
+                            <Text style={{textAlign:'center', fontSize:25, fontWeight:'500'}}> Hello, User's Name </Text>
+                        </CardItem>
+                        <CardItem style={{justifyContent:'center'}}>
+                            <Text style={{textAlign:'center', fontSize:20}}> What would you like to do today? </Text>
+                        </CardItem>
+                    </Card> 
+                    <FlatList
+                        data={this.state.anotherFake}
+                        renderItem={({ item, index }) => {
+                            return (
+                            <Card style={{ borderRadius: 10 }}>
+                                <CardItem bordered style={{ borderTopLeftRadius: 8, borderTopRightRadius: 8, borderBottomWidth:0, borderTopWidth:1.5, borderWidth:2,  borderColor: item.status === "admin" ? '#BA55D3': '#009BD2', }}>
+                                    <Left>
+                                        <Text style={{fontWeight:"600"}}>{item.title}</Text>
+                                    </Left>
+                                    <Right>
+                                        <Text style={{textAlign:'right',  color: item.status === "admin" ? '#BA55D3': '#009BD2' }}> <Text style={{fontWeight:"500"}}>Status: </Text>{item.status}</Text>
+                                    </Right>
+                                </CardItem>
+                                <CardItem bordered  style={{ borderBottomLeftRadius: 8, borderBottomRightRadius: 8, borderTopWidth: 1, borderBottomWidth:1.5, borderWidth: 2, borderColor: item.status === "admin" ? '#BA55D3': '#009BD2', }}>
+                                    <Left>
+                                        <Thumbnail large square source={{uri: item.image}} style={{flex:1}}/>
+                                    </Left>
+                                    <Right>
+                                        <Button small rounded style={{padding:0, backgroundColor:'#009BD2'}}>
+                                            <Text style={{color:'white', padding: 0}}> Join </Text>
+                                        </Button>
+                                    </Right>
+                                </CardItem>
+                            </Card>
+                            )
+                        }}
+                        keyExtractor={(item) => item.id}
+                        />
+                    <Right> 
+                        <ModalEvent/>
+                    </Right> 
+                </Content>
+          </Container>
         );
     }
 }
@@ -33,7 +98,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#2c3e50',
-    },
+    }
 });
 
 //make this component available to the app

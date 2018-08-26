@@ -27,7 +27,7 @@ class CardEvent extends Component {
         <CardItem>
           <Left>
             <Body>
-              <Text> {item.eventName} </Text>
+              <Text>{item.eventName}</Text>
               <Text note>Creator : {item.admin.name} </Text>
             </Body>
           </Left>
@@ -46,7 +46,7 @@ class CardEvent extends Component {
             <Text style={{ marginTop: 10 }}>{item.description}</Text>
           </Body>
         </CardItem>
-        <CardItem>
+        <CardItem footer>
           <Left>
             <ModalPasswordEvent
               navigation={navigation}
