@@ -1,9 +1,17 @@
 //import liraries
 import React, { Component } from "react";
-import { View, ScrollView, AsyncStorage, StyleSheet, Modal, TouchableOpacity } from "react-native";
-import { Button, Icon, Item, Input, Body, Left, Right, Text, Form, Label, Card, CardItem } from "native-base";
+import { View, ScrollView, AsyncStorage, StyleSheet, Modal, TouchableOpacity, TouchableWithoutFeedback, DatePickerAndroid, Platform, ActivityIndicator } from "react-native";
+import { Button, Icon, Item, Input, Body, Left, Right, Text, Form, Label, Card, CardItem, Thumbnail } from "native-base";
 import axios from "axios";
 import {connect} from 'react-redux'
+import ImagePicker from "react-native-image-picker";
+import storageRef from "../firebase/firebase";
+import RNFetchBlob from "react-native-fetch-blob";
+// import RNFetchBlob from "../../node_modules/react-native-fetch-blob/index";
+const Blob = RNFetchBlob.polyfill.Blob;
+const fs = RNFetchBlob.fs;
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+window.Blob = Blob;
 
 // create a component
 class ModalAddEvent extends Component {
@@ -15,7 +23,10 @@ class ModalAddEvent extends Component {
         password: '',
         budget: '',
         description: '',
-        imageUrl: ''
+        imageUrl: '',
+        simpleDate: new Date(),
+        simpleText: "Pick a Date",
+        loading: false
     };
   }
 
@@ -53,22 +64,54 @@ class ModalAddEvent extends Component {
       });
   }
 
+  async showPicker(stateKey, options){
+    try{
+      const newState = {}
+      const {action, year, month, day} = await DatePickerAndroid.open(options)
+
+      if(action === DatePickerAndroid.dismissedAction){
+        newState[`${stateKey}Text`] = 'dismissed'
+        this.setState({
+          simpleText: newState.simpleText
+        })
+      }
+      else{
+        const date = new Date(year, month, day)
+        newState[`${stateKey}Text`] = date.toLocaleDateString()
+        newState[`${stateKey}Date`] = date
+        this.setState({
+          simpleDate: newState.simpleDate,
+          simpleText: newState.simpleText
+        })
+      }
+
+      console.log("ini newstate! : ", newState)
+      
+    }
+    catch ({code, message}){
+      console.warn(`Error in example '${stateKey}': `, message)
+    }
+  }
+
   async onSubmit(){
     const token = await AsyncStorage.getItem('token')
-    if(this.state.eventName != '' && this.state.password != '' && this.state.description != '' && this.state.budget != '' && this.state.imageUrl !== ''){
+    if(this.state.eventName != '' && this.state.password != '' && this.state.description != '' && this.state.budget != '' && this.state.imageUrl !== '' && this.state.simpleText !== "Pick a Date"){
       let newData = {
         eventName: this.state.eventName,
         password: this.state.password,
         budget: this.state.budget,
         description: this.state.description,
-        imageUrl: this.state.imageUrl
+        imageUrl: this.state.imageUrl,
+        deadlineDate: this.state.simpleText
       }
       this.setState({
         eventName: '',
         password: '',
         budget: '',
         description: '',
-        imageUrl: ''
+        imageUrl: '',
+        simpleText: 'Pick a Date',
+        simpleDate: new Date()
       });
 
       const {data} = await axios.post('https://eva-server.ariefardi.xyz/events', newData, { headers:{token: token}})
@@ -81,17 +124,92 @@ class ModalAddEvent extends Component {
   }
 
   onCancel(){
-      e.preventDefault();
       this.setState({
         eventName: '',
         password: '',
         budget: '',
         description: '',
-        imageUrl: ''
+        imageUrl: '',
+        simpleText: 'Pick a Date',
+        simpleDate: new Date()
       });
       this.setModalVisible(!this.state.modalVisible)
   }
 
+  uploadImage(response, mime = "application/octet-stream") {
+		return new Promise((resolve, reject) => {
+		
+			const uploadUri =
+			Platform.OS === "android" ? response.uri.replace("file://", "") : response.uri;
+		
+			let uploadBlob = null;
+			const imageRef = storageRef.ref("item_photos/" + response.fileName);
+		
+			fs.readFile(uploadUri, "base64")
+				.then(data => {
+					return Blob.build(data, { type: `${mime};BASE64` });
+				})
+				.then(blob => {
+					uploadBlob = blob;
+					return imageRef.put(blob, { contentType: mime });
+				})
+				.then(() => {
+					uploadBlob.close();
+					return imageRef.getDownloadURL();
+				})
+					.then(url => {
+					resolve(url);
+				})
+					.catch(err => {
+					reject(err);
+				});
+		});
+	}
+	
+	openGallery() {
+		console.log("openGallery")
+
+		var options = {
+			title: "Select Avatar",
+			customButtons: [{ name: "fb", title: "Choose Photo from Facebook" }],
+			storageOptions: {
+				skipBackup: true,
+				path: "images"
+			}
+		}
+
+		ImagePicker.showImagePicker(options, response => {
+			console.log("Response = ", response);
+			if (response.didCancel) {
+				console.log("User cancelled image picker");
+			} else if (response.error) {
+				console.log("ImagePicker Error: ", response.error);
+			} else if (response.customButton) {
+				console.log("User tapped custom button: ", response.customButton);
+			} else {
+        this.setState({
+          loading: true,
+        })
+				// let source = { uri: response.uri };
+
+				// You can also display the image using data:
+				// let source = { uri: 'data:image/jpeg;base64,' + response.data };
+				// console.log(source, " ini source");
+				this.uploadImage(response)
+				.then(url => {
+          console.log("---> url : ", url);
+          this.setState({
+            imageUrl: url,
+            loading: false
+          })
+				})
+				.catch(err => {
+					console.log(err);
+				});
+			}
+		});
+  }
+  
   render() {
     return (
       <View style={styles.container}>
@@ -111,22 +229,41 @@ class ModalAddEvent extends Component {
                         <Label>Event Name</Label>
                         <Input name="eventName" onChangeText={(text)=> this.onchangeEventName(text)} />
                      </Item>
-                     <Item floatingLabel last>
+                     <Item floatingLabel>
                         <Label>Set Password for Event</Label>
-                        <Input secureTextEntry={this.state.hidePassword} name="password"  onChangeText={(text)=> this.onchangePassword(text)}  />
-                        <Icon name={this.state.eye} onPress={(e) => this.toggleDisplay(e)} color="white"/> 
+                        <Input secureTextEntry={this.state.hidePassword} name="password"  onChangeText={(text)=> this.onchangePassword(text)}/>
                      </Item>
                      <Item floatingLabel>
                         <Label>Budget</Label>
                         <Input name="budget" onChangeText={(text)=> this.onchangeBudget(text)} />
                      </Item>
-                     <Item floatingLabel last>
+                     <Item floatingLabel>
                         <Label>Description </Label>
                         <Input name="description" onChangeText={(text)=> this.onchangeDescription(text)} />
                      </Item>
-                     <Item floatingLabel>
-                        <Label>Image Url </Label>
-                        <Input name="imageUrl" onChangeText={(text)=> this.onchangeImageUrl(text)} />
+                     <Item inlineLabel style={{paddingTop: 35}}>
+                        <Label style={{marginRight: 8}}>Image </Label>
+                          { this.state.loading
+                            ? <ActivityIndicator medium/>
+                            : <Thumbnail medium square source={{uri: this.state.imageUrl}} style={{marginBottom: 5}}/>
+                          }
+                        <Right>
+                          <Button 
+                            style={{marginBottom: 5}}
+                            small
+                            onPress={() => {
+                            this.openGallery();
+                            }}
+                          >
+                            <Text> Open gallery </Text>
+                          </Button>
+                        </Right>
+                     </Item>
+                     <Item inlineLabel style={{paddingTop: 35}} last>
+                        <Label>Select Date of Event </Label>
+                        <TouchableWithoutFeedback onPress={this.showPicker.bind(this, 'simple', { date: this.state.simpleDate})}>
+                        <Text> {this.state.simpleText} </Text>
+                        </TouchableWithoutFeedback>
                      </Item>
                   </Form>
                </ CardItem>

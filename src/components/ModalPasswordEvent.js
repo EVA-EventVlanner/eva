@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from "react";
 import { Modal, TouchableOpacity, View, StyleSheet } from "react-native";
-import { Button, Icon, Item, Input, Body, Left, Right, Text } from "native-base";
+import { Button, Icon, Item, Input, Body, Left, Right, Text, Card, CardItem, Label} from "native-base";
 import axios from "axios";
 
 import store from '../store/store'
@@ -11,6 +11,30 @@ class ModalPasswordEvent extends Component {
 	state = {
 		modalVisible: false,
 		password: null
+	}
+
+	async checkMemberStatus(){
+		let userId = store.getState().eventReducers.userId
+		let eventId = this.props.eventId
+		let event = this.props.event
+
+		const {data} = await axios.post(`https://eva-server.ariefardi.xyz/events/${eventId}/nopassword/${userId}`)
+		console.log("ini hasil dari userId check member status: ", data);
+
+		if(data.NeedPassword === true){
+			alert(data.message)
+		}
+		else{
+			alert("Welcome Back!")
+			
+			this.props.navigation.navigate("DetailBudget", {
+				id: event
+			})
+
+			this.setState({
+				modalVisible: false
+			})
+		}
 	}
 
 	setModalVisible(visible) {
@@ -72,30 +96,43 @@ class ModalPasswordEvent extends Component {
 				}}
 				>
 				<View style={{ marginTop: 200 }}>
-					<Item>
-					<Input
-						color={"grey"}
-						placeholder="Input password"
-						onChangeText={text => this.onchangePassword(text)}
-					/>
-					</Item>
-					<Button
-					color={"white"}
-					style={{ width: 70, marginTop: 10, marginLeft: "70%" }}
-					onPress={() => {
-						this.goToDetail();
-					}}
-					>
-					<Text
-						style={{
-						alignContent: "center",
-						alignItems: "center",
-						padding: 20
-						}}
-					>
-						Join
-					</Text>
-					</Button>
+					<Card>
+						<CardItem>
+							<Item floatingLabel>
+								<Label>Input password</Label>
+								<Input
+									color={"grey"}
+									onChangeText={text => this.onchangePassword(text)}
+								/>
+							</Item>
+						</CardItem>
+						<CardItem>
+							<Left>
+								<TouchableOpacity onPress={()=>{this.checkMemberStatus()}} >
+									<Text style={{color:"#009BD2"}}>I'm already a member</Text>
+								</TouchableOpacity>
+							</Left>
+							<Right>
+								<Button
+								color={"white"}
+								style={{ width: 70, marginTop: 10, marginLeft: "70%" }}
+								onPress={() => {
+									this.goToDetail();
+								}}
+								>
+									<Text
+										style={{
+										alignContent: "center",
+										alignItems: "center",
+										padding: 20
+										}}
+									>
+										Join
+									</Text>
+								</Button>
+							</Right>
+						</CardItem>
+					</Card>
 				</View>
 				</Modal>
 				<Button
@@ -106,7 +143,7 @@ class ModalPasswordEvent extends Component {
 				textStyle={{ color: "#87838B" }}
 				>
 				<Icon style={{ marginLeft: 5, marginRight: 5 }} name="md-open" />
-				<Text style={{ color: "#87838B" }}>Join as commite</Text>
+				<Text style={{ color: "#87838B" }}>Join as commitee</Text>
 				</Button>
 			</View>
 		);
