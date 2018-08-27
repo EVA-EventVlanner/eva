@@ -101,18 +101,18 @@ class DetailBudgetScreen extends Component {
           </Card>
           <ScrollView horizontal>
             {event.items.map((item, index) => (
-              <ItemToBuy key={index} item={item} />
+              <ItemToBuy navigation={this.props.navigation} key={index} item={item} />
             ))}
             {event.items.map((item, index) => (
-              <ItemToBuy key={index} item={item} />
+              <ItemToBuy navigation={this.props.navigation} key={index} item={item} />
             ))}
           </ScrollView>
           <ScrollView horizontal>
             {event.items.map((item, index) => (
-              <ItemToBuy key={index} item={item} />
+              <ItemToBuy navigation={this.props.navigation} key={index} item={item} />
             ))}
             {event.items.map((item, index) => (
-              <ItemToBuy key={index} item={item} />
+              <ItemToBuy navigation={this.props.navigation} key={index} item={item} />
             ))}
           </ScrollView>
         </ScrollView>
