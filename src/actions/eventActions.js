@@ -81,9 +81,21 @@ export function setEventByIdToState(payload) {
 }
 
 export function AddItemToEvent(obj) {
-  console.log(obj, " ini obj");
+  let temp = {
+    itemName: obj.itemName,
+    itemPrice: obj.itemPrice,
+    quantity: obj.quantity,
+    imageItem: obj.avatarSource
+  };
+  console.log("ini temp", temp);
   return dispatch => {
-    return dispatch(setNewItemToStateEvent(obj));
+    axios
+      .post(`https://eva-server.ariefardi.xyz/events/${obj.eventId}/item`, temp)
+      .then(({ data }) => {
+        console.log(data, " data axios post item");
+
+        return dispatch(setNewItemToStateEvent(data.getEvent));
+      });
   };
 }
 

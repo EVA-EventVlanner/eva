@@ -33,7 +33,8 @@ const eventReducer = (state = initialState, action) => {
     // let temp = state.event.items.concat(action.payload);
     // console.log(temp, " ini temp");
     return {
-      ...state
+      ...state,
+      event: action.payload
     };
   }
   if (action.type === "SET_EVENT_BY_ID") {
