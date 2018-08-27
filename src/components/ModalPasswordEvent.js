@@ -36,7 +36,7 @@ class ModalPasswordEvent extends Component {
 			let event = this.props.event
 			console.log(password, "ini loh")
 		
-			axios.post(`https://eva-server.ariefardi.xyz/${eventId}/login/${userId}`, {
+			axios.post(`https://eva-server.ariefardi.xyz/events/${eventId}/login/${userId}`, {
 				password
 			})
 			.then(({ data }) => {
