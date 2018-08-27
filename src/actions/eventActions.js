@@ -61,3 +61,35 @@ export function addToEventsState(payload) {
     payload
   };
 }
+
+export function getEventById(id) {
+  return dispatch => {
+    console.log("from action", id);
+    let url = "https://eva-server.ariefardi.xyz/events/" + id;
+    axios.get(url).then(({ data }) => {
+      console.log(data, " data axios");
+      return dispatch(setEventByIdToState(data.event));
+    });
+  };
+}
+export function setEventByIdToState(payload) {
+  console.log(" ini masuk gak dari siin", payload);
+  return {
+    type: "SET_EVENT_BY_ID",
+    payload
+  };
+}
+
+export function AddItemToEvent(obj) {
+  console.log(obj, " ini obj");
+  return dispatch => {
+    return dispatch(setNewItemToStateEvent(obj));
+  };
+}
+
+export function setNewItemToStateEvent(payload) {
+  return {
+    type: "ADD_NEW_ITEM_TO_STATE",
+    payload
+  };
+}
