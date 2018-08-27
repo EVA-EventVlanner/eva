@@ -106,6 +106,8 @@ class MyClass extends Component {
 
 	render() {
 		let item = this.props.item;
+		console.log("=====>>>>", this.props)
+		let {navigate} = this.props.navigation
 		if (item !== undefined) {
 		return (
 			<Card style={{ height: 200, width: 150 }}>
@@ -131,7 +133,7 @@ class MyClass extends Component {
 				<Text> Item Qty: {item.quantity} </Text>
 			</Body>
 			<Body style={{ marginTop: 0 }}>
-				<Button onPress={() => this.uploadToStorage()} rounded>
+				<Button onPress={() => navigate("Result")} rounded>
 				<Icon name="ios-camera" />
 				</Button>
 			</Body>

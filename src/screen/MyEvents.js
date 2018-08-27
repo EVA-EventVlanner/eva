@@ -26,11 +26,6 @@ class MyEvents extends Component {
         })
     }
 
-    itemCek(item) {
-        console.log('ini yang tesnya dari ', item);
-        
-    }
-
     render() {
         console.log("ini dari event: " , this.props.getUser)
         if(this.props.getUser.length === 0){

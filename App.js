@@ -7,6 +7,7 @@ import HomeScreen from './src/screen/Home'
 import MyEventScreen from './src/screen/MyEvents'
 import MyProfileScreen from './src/screen/MyProfile'
 import DetailBudgetScreen from './src/screen/DetailBudgetScreen'
+import ResultScreen from './src/screen/Result'
 import {createStackNavigator, createDrawerNavigator} from 'react-navigation';
 const HomeStack = createStackNavigator ({
   Home: {
@@ -21,6 +22,13 @@ const HomeStack = createStackNavigator ({
     screen: DetailBudgetScreen,
     navigationOptions: {
       title: 'Detail',
+      headerTintColor: 'white'
+    }
+  },
+  Result: {
+    screen: ResultScreen,
+    navigationOptions:{
+      title: 'Result',
       headerTintColor: 'white'
     }
   }
