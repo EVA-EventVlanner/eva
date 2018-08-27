@@ -1,6 +1,12 @@
 //import liraries
 import React, { Component } from "react";
-import { ScrollView, StyleSheet, Image } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Image,
+  ActivityIndicator,
+  View
+} from "react-native";
 import {
   Container,
   Header,
@@ -17,28 +23,35 @@ import {
 } from "native-base";
 import ItemToBuy from "../components/ItemToBuy";
 import ModalAddItem from "../components/ModalAddItem";
+import { connect } from "react-redux";
+import { getEventById } from "../actions/eventActions";
+import store from "../store/store";
 // create a component
 class DetailBudgetScreen extends Component {
+  componentDidMount() {
+    console.log(" componend did mount from detail screem");
+    let id = this.props.navigation.getParam("id")._id;
+    this.props.getEventById(id);
+  }
   render() {
-    if (this.props) {
+    if (this.props.event) {
       const { navigation } = this.props;
+      const event = this.props.event;
       const eventDetail = navigation.getParam("id");
-      const imageUrl = eventDetail.imageUrl;
+      const imageUrl = event.imageUrl;
       console.log(imageUrl, " ini event detail");
       return (
         <ScrollView>
           <Image
-            source={{
-              uri: imageUrl
-            }}
+            source={{ uri: imageUrl }}
             style={{ height: 202, width: null, flex: 1 }}
           />
           <Card style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }}>
             <CardItem style={{ height: 100 }}>
               <Left>
                 <Body>
-                  <Text> {eventDetail.eventName} </Text>
-                  <Text note> {eventDetail.location} </Text>
+                  <Text> {event.eventName} </Text>
+                  <Text note> {event.location} </Text>
                 </Body>
               </Left>
             </CardItem>
@@ -58,10 +71,10 @@ class DetailBudgetScreen extends Component {
             </CardItem>
             <CardItem>
               <Left>
-                <Thumbnail source={{ uri: eventDetail.admin.imageProfile }} />
+                <Thumbnail source={{ uri: event.admin.imageProfile }} />
                 <Body>
-                  <Text>{eventDetail.admin.name}</Text>
-                  <Text>{eventDetail.admin.role[0]}</Text>
+                  <Text>{event.admin.name}</Text>
+                  <Text>{event.admin.role[0]}</Text>
                 </Body>
               </Left>
             </CardItem>
@@ -77,32 +90,38 @@ class DetailBudgetScreen extends Component {
                 >
                   <Icon name="md-cash" />
                   <Text style={{ color: "#1c82f0", marginLeft: -9 }}>
-                    Budget : Rp .{" " + eventDetail.budget.toLocaleString()}
+                    Budget : Rp .{" " + event.budget.toLocaleString()}
                   </Text>
                 </Button>
               </Left>
               <Right>
-                <ModalAddItem />
+                <ModalAddItem eventId={event._id} />
               </Right>
             </CardItem>
           </Card>
           <ScrollView horizontal>
-            {eventDetail.items.map((item, index) => (
+            {event.items.map((item, index) => (
               <ItemToBuy key={index} item={item} />
             ))}
-            {eventDetail.items.map((item, index) => (
+            {event.items.map((item, index) => (
               <ItemToBuy key={index} item={item} />
             ))}
           </ScrollView>
           <ScrollView horizontal>
-            {eventDetail.items.map((item, index) => (
+            {event.items.map((item, index) => (
               <ItemToBuy key={index} item={item} />
             ))}
-            {eventDetail.items.map((item, index) => (
+            {event.items.map((item, index) => (
               <ItemToBuy key={index} item={item} />
             ))}
           </ScrollView>
         </ScrollView>
+      );
+    } else {
+      return (
+        <View>
+          <ActivityIndicator size={75} />
+        </View>
       );
     }
   }
@@ -119,4 +138,18 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default DetailBudgetScreen;
+const mapStateToProps = state => {
+  console.log(state.eventReducers, " ini dari state mapstateprops");
+  return {
+    event: state.eventReducers.event
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return { getEventById: id => dispatch(getEventById(id)) };
+};
+
+//make this component available to the app
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DetailBudgetScreen);

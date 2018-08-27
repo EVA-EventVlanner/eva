@@ -61,3 +61,47 @@ export function addToEventsState(payload) {
     payload
   };
 }
+
+export function getEventById(id) {
+  return dispatch => {
+    console.log("from action", id);
+    let url = "https://eva-server.ariefardi.xyz/events/" + id;
+    axios.get(url).then(({ data }) => {
+      console.log(data, " data axios");
+      return dispatch(setEventByIdToState(data.event));
+    });
+  };
+}
+export function setEventByIdToState(payload) {
+  console.log(" ini masuk gak dari siin", payload);
+  return {
+    type: "SET_EVENT_BY_ID",
+    payload
+  };
+}
+
+export function AddItemToEvent(obj) {
+  let temp = {
+    itemName: obj.itemName,
+    itemPrice: obj.itemPrice,
+    quantity: obj.quantity,
+    imageItem: obj.avatarSource
+  };
+  console.log("ini temp", temp);
+  return dispatch => {
+    axios
+      .post(`https://eva-server.ariefardi.xyz/events/${obj.eventId}/item`, temp)
+      .then(({ data }) => {
+        console.log(data, " data axios post item");
+
+        return dispatch(setNewItemToStateEvent(data.getEvent));
+      });
+  };
+}
+
+export function setNewItemToStateEvent(payload) {
+  return {
+    type: "ADD_NEW_ITEM_TO_STATE",
+    payload
+  };
+}
