@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Platform } from "react-native";
 import {
   Container,
   Header,
@@ -17,14 +17,22 @@ import {
 } from "native-base";
 
 import ImagePicker from 'react-native-image-picker'
+import RNFetchBlob from "react-native-fetch-blob";
+// import RNFetchBlob from "../../node_modules/react-native-fetch-blob/index";
+const Blob = RNFetchBlob.polyfill.Blob;
+const fs = RNFetchBlob.fs;
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+window.Blob = Blob;
 import axios from 'axios'
 
 // create a component
 class MyClass extends Component {
-
+	
 	uploadToStorage() {
 		console.log("openGallery");
 		
+		let mime = "application/octet-stream"
+
 		var options = {
 			title: "Select Avatar",
 			customButtons: [{ name: "fb", title: "Choose Photo from Facebook" }],
@@ -34,58 +42,55 @@ class MyClass extends Component {
 			}
 		}
 
-		ImagePicker.showImagePicker(options, response => {
+ 		ImagePicker.showImagePicker(options, response => {
 			console.log("Response = ", response)
-
-			if (response.didCancel) {
+ 			if (response.didCancel) {
 				console.log("User cancelled image picker");
 			} else if (response.error) {
 				console.log("ImagePicker Error: ", response.error);
 			} else if (response.customButton) {
 				console.log("User tapped custom button: ", response.customButton);
 			} else {
-
-				// format the image data 
+ 				// format the image data 
 				const image = {
 					uri: response.uri,
 					data: response.data,
 					type: 'image/jpeg',
 					name: 'myImage' + '-' + Date.now() + '.jpg'
-				  }
-
-				// let source = { uri: response.uri };
-				// console.log('ini imagenya : ', response)
-
-				// console.log('object image created : ', image)
+				}
 				
 				let api_upload_uri = 'https://eva-server.ariefardi.xyz/vision/upload'
-				// let api_upload_uri = 'http://localhost:3000/vision/upload'
-
+				 
 				const imgBody = new FormData();
 				
+				const uploadUri =
+				Platform.OS === "android" ? response.uri.replace("file://", "") : uri;
+			
+				let uploadBlob = null;
+				
+				fs.readFile(uploadUri, 'base64')
+				.then ( function (data) {
+					console.log('ini data abis reaf file ----> ', data)
+					return Blob.build(data, { type: `${mime}; BASE64`})
+				})
+				.then(function (blob) {
+					console.log('-----> ini blobnya  :', blob)
+				})
+
 				// append the image to the object with the title 'image'
 				imgBody.append('image', image);
-				
-				// Perform the request. Note the content type - very important
-				// fetch(api_upload_uri, {
-				// 	method: 'POST',
-				// 	headers: {
-				// 		'Accept': 'application/json',
-				// 		'Content-Type': 'multipart/form-data',
-				// 	},
-				// 	body: imgBody
-				// })
 
-				axios({
+				console.log('ini img body ----> ',imgBody)
+
+ 				axios({
 					url: api_upload_uri,
 					method: 'post',
-					data: imgBody,
+					body: imgBody,
 					headers: {
 						'Accept' : 'application/json',
 						'Content-Type' : 'multipart/form-data',
 					}
-
-				})
+				 })
 				.then( function (visionResult) {
 					console.log(visionResult)
 				})
@@ -95,6 +100,9 @@ class MyClass extends Component {
 			}
 		})
 	}
+
+
+
 
 	render() {
 		let item = this.props.item;

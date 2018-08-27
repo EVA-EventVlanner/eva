@@ -19,7 +19,7 @@ const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
-
+		
 // create a component
 class ModalAddItem extends Component {
 	state = {
@@ -81,29 +81,30 @@ class ModalAddItem extends Component {
 		}
 
 		ImagePicker.showImagePicker(options, response => {
-		console.log("Response = ", response);
-		if (response.didCancel) {
-			console.log("User cancelled image picker");
-		} else if (response.error) {
-			console.log("ImagePicker Error: ", response.error);
-		} else if (response.customButton) {
-			console.log("User tapped custom button: ", response.customButton);
-		} else {
-			// let source = { uri: response.uri };
+			console.log("Response = ", response);
+			if (response.didCancel) {
+				console.log("User cancelled image picker");
+			} else if (response.error) {
+				console.log("ImagePicker Error: ", response.error);
+			} else if (response.customButton) {
+				console.log("User tapped custom button: ", response.customButton);
+			} else {
+				// let source = { uri: response.uri };
 
-			// You can also display the image using data:
-			// let source = { uri: 'data:image/jpeg;base64,' + response.data };
-			// console.log(source, " ini source");
-			this.uploadImage(response.uri)
-			.then(url => {
-				console.log(url);
-			})
-			.catch(err => {
-				console.log(err);
-			});
-		}
+				// You can also display the image using data:
+				// let source = { uri: 'data:image/jpeg;base64,' + response.data };
+				// console.log(source, " ini source");
+				this.uploadImage(response.uri)
+				.then(url => {
+					console.log(url);
+				})
+				.catch(err => {
+					console.log(err);
+				});
+			}
 		});
 	}
+
 	render() {
 		return (
 		<View style={{ marginTop: 22 }}>
