@@ -68,7 +68,7 @@ class MyClass extends Component {
 
         // Perform the request. Note the content type - very important
         axios
-          .post(url, { type: "transport" })
+          .post(url, { type: "needs" })
           .then(res => {
             let visionResult = res.data.result;
 

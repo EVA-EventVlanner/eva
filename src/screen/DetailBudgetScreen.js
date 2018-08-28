@@ -37,9 +37,12 @@ class DetailBudgetScreen extends Component {
     if (this.props.event) {
       const { navigation } = this.props;
       const event = this.props.event;
+
+      console.log('event ---> ', event)
+
       const eventDetail = navigation.getParam("id");
       const imageUrl = event.imageUrl;
-      console.log(imageUrl, " ini event detail");
+      // console.log(imageUrl, " ini event detail");
       return (
         <ScrollView>
           <Image
@@ -79,21 +82,17 @@ class DetailBudgetScreen extends Component {
               </Left>
             </CardItem>
             <CardItem>
-              <Left>
-                <Button
-                  onPress={() => {
-                    this.setModalVisible(true);
-                  }}
-                  disabled
-                  transparent
-                  textStyle={{ color: "#87838B" }}
-                >
-                  <Icon name="md-cash" />
-                  <Text style={{ color: "#1c82f0", marginLeft: -9 }}>
-                    Budget : Rp .{" " + event.budget.toLocaleString()}
-                  </Text>
-                </Button>
-              </Left>
+              <Body>
+                <Text style={{ color: "#1c82f0", marginLeft: -9 }}>
+                  Budget : Rp {" " + event.budget.toLocaleString()}
+                </Text>
+                <Text style={{ color: "#1c82f0", marginLeft: -9 }}>
+                  Remains : Rp {" " + event.currentBudget.toLocaleString()}
+                </Text>
+              </Body>
+            </CardItem>
+            <CardItem>
+              <Left></Left>
               <Right>
                 <ModalAddItem eventId={event._id} />
               </Right>
