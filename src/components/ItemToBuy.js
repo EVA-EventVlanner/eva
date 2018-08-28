@@ -34,65 +34,16 @@ class MyClass extends Component {
 
   uploadToGoogleStorage() {
     ImagePicker.showImagePicker({ title: "Select Image" }, response => {
-      console.log("ini response image picker : ", response);
+      //   console.log("ini response image picker : ", response);
 
-      console.log("ini response.uri awal --> ", response.uri);
+      //   console.log("ini response.uri awal --> ", response.uri);
 
-      response.uri = "file://" + response.uri;
-      response.path = "file://" + response.path;
+      //   response.uri = "file://" + response.uri;
+      //   response.path = "file://" + response.path;
 
-      console.log("ini response.uri baru ---> ", response.uri);
+      //   console.log("ini response.uri baru ---> ", response.uri);
 
       // format the image data
-      let image = {
-        uri: response.uri,
-        type: response.type,
-        name: "myImage" + "-" + Date.now() + ".jpg"
-      };
-
-      // Instantiate a FormData() object
-      let imgBody = new FormData();
-
-      // append the image to the object with the title 'image'
-      imgBody.append("image", image);
-      let url = `https://eva-server.ariefardi.xyz/vision/analyzelink`;
-
-      console.log("imgBody sent to server --> ", imgBody);
-
-      // Perform the request. Note the content type - very important
-      axios
-        .post(url, { type: "transport" })
-        .then(res => {
-          let visionResult = res.data.result;
-
-          console.log("ini vision result --> ", visionResult);
-
-          this.props.navigation.navigate("Result", {
-            visionResult: visionResult
-          });
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    });
-  }
-
-  uploadToStorage() {
-    console.log("openGallery");
-
-    let mime = "application/octet-stream";
-
-    var options = {
-      title: "Select Avatar",
-      customButtons: [{ name: "fb", title: "Choose Photo from Facebook" }],
-      storageOptions: {
-        skipBackup: true,
-        path: "images"
-      }
-    };
-
-    ImagePicker.showImagePicker(options, response => {
-      console.log("Response = ", response);
       if (response.didCancel) {
         console.log("User cancelled image picker");
       } else if (response.error) {
@@ -100,50 +51,34 @@ class MyClass extends Component {
       } else if (response.customButton) {
         console.log("User tapped custom button: ", response.customButton);
       } else {
-        // format the image data
-        const image = {
+        let image = {
           uri: response.uri,
-          data: response.data,
-          type: "image/jpeg",
+          type: response.type,
           name: "myImage" + "-" + Date.now() + ".jpg"
         };
 
-        let api_upload_uri = "https://eva-server.ariefardi.xyz/vision/upload";
-
-        const imgBody = new FormData();
-
-        const uploadUri =
-          Platform.OS === "android" ? response.uri.replace("file://", "") : uri;
-
-        let uploadBlob = null;
-
-        fs.readFile(uploadUri, "base64")
-          .then(function(data) {
-            console.log("ini data abis reaf file ----> ", data);
-            return Blob.build(data, { type: `${mime}; BASE64` });
-          })
-          .then(function(blob) {
-            console.log("-----> ini blobnya  :", blob);
-          });
+        // Instantiate a FormData() object
+        let imgBody = new FormData();
 
         // append the image to the object with the title 'image'
         imgBody.append("image", image);
+        let url = `https://eva-server.ariefardi.xyz/vision/analyzelink`;
 
-        console.log("ini img body ----> ", imgBody);
+        console.log("imgBody sent to server --> ", imgBody);
 
-        axios({
-          url: api_upload_uri,
-          method: "post",
-          body: imgBody,
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data"
-          }
-        })
-          .then(function(visionResult) {
-            console.log(visionResult);
+        // Perform the request. Note the content type - very important
+        axios
+          .post(url, { type: "transport" })
+          .then(res => {
+            let visionResult = res.data.result;
+
+            console.log("ini vision result --> ", visionResult);
+
+            this.props.navigation.navigate("Result", {
+              visionResult: visionResult
+            });
           })
-          .catch(function(error) {
+          .catch(error => {
             console.error(error);
           });
       }
