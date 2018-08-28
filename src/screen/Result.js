@@ -27,8 +27,9 @@ class Result extends Component {
             name: "Kopiko",
             price: 10000
          }],
-         selected: undefined
+         selected: "key1"
         }
+        this.onValueChange = this.onValueChange.bind(this);
     }
    
     async componentDidMount () {
@@ -41,12 +42,32 @@ class Result extends Component {
        let key = value
       this.setState({
         selected: key
+      }, function () {
+         console.log("onValueChange: ", this.state.selected)
       });
-      console.log("onValueChange: ", this.state.selected)
     }
 
     verify(){
       alert("clicked verify")
+    }
+
+    generatePicker(){
+       return(
+         <Picker
+         mode="dropdown"
+         iosHeader="Select your SIM"
+         iosIcon={<Icon name="ios-arrow-down-outline" />}
+         style={{ width: 150 }}
+         selectedValue={this.state.selected}
+         onValueChange={this.onValueChange}
+         >
+            <Picker.Item label="Wallet" value="key0" />
+            <Picker.Item label="ATM Card" value="key1" />
+            <Picker.Item label="Debit Card" value="key2" />
+            <Picker.Item label="Credit Card" value="key3" />
+            <Picker.Item label="Net Banking" value="key4" />
+         </Picker>
+       )
     }
 
     render() {
@@ -76,17 +97,18 @@ class Result extends Component {
                                           <Text style={{fontWeight:"600"}}>{item.item}</Text>
                                        </Left>
                                        <Right>
-                                       <Picker
-                                          mode="dropdown"
-                                          placeholderStyle={{ color: "black" }}
-                                          style={{ width: 160 }}
-                                          selectedValue={this.state.selected}
-                                          onValueChange={this.onValueChange.bind(this)}
-                                          >
-                                          {itemList.map((eachItem,index) => (
-                                             <Picker.Item label={eachItem.itemName} value={index} />
-                                          ))} 
-                                          </Picker>
+                                          {this.generatePicker()}
+                                          {/* <Picker
+                                             mode="dropdown"
+                                             placeholderStyle={{ color: "black" }}
+                                             style={{ width: 160 }}
+                                             selectedValue={this.state.selected}
+                                             onValueChange={this.onValueChange}
+                                             >
+                                             {itemList.map((eachItem,index) => (
+                                                <Picker.Item label={eachItem.itemName} value={index} />
+                                             ))} 
+                                          </Picker> */}
                                        </Right>
                                  </CardItem>
                                  <CardItem>
