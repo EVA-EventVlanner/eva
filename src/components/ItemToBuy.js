@@ -24,7 +24,7 @@ const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
-// import axios from 'axios'
+import axios from 'axios'
 
 // create a component
 class MyClass extends Component {
@@ -56,20 +56,15 @@ class MyClass extends Component {
 			
 			// append the image to the object with the title 'image'
 			imgBody.append('image', image);
-			let url = `https://eva-server.ariefardi.xyz/vision/analyze`;
+			let url = `https://eva-server.ariefardi.xyz/vision/analyzelink`;
 
 			console.log('imgBody sent to server --> ', imgBody)
 			
 			// Perform the request. Note the content type - very important
-			fetch(url, {
-				method: 'POST',
-				// headers: {
-				// 	'Accept': 'application/json',
-				// 	'Content-Type': 'multipart/form-data'
-				// },
-				body: imgBody
-			}).then(res => {
-				let visionResult = JSON.parse(res._bodyInit).result
+			axios.post(url, { type : 'transport'})
+			.then(res => {
+
+				let visionResult = res.data.result
 
 				console.log('ini vision result --> ', visionResult)
 				
