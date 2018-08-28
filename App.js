@@ -10,45 +10,12 @@ import DetailBudgetScreen from './src/screen/DetailBudgetScreen'
 import ResultScreen from './src/screen/Result'
 import {createStackNavigator, createDrawerNavigator} from 'react-navigation';
 
-// const HomeStack = createStackNavigator ({
-//   Home: {
-//     screen: HomeScreen,
-//     navigationOptions: {
-//       drawerLabel: 'Home',
-//       title : 'Home',
-//       headerTintColor: 'white',
-//     }
-//   },
-//   DetailBudget: {
-//     screen: DetailBudgetScreen,
-//     navigationOptions: {
-//       title: 'Detail',
-//       headerTintColor: 'white'
-//     }
-//   },
-//   Result: {
-//     screen: ResultScreen,
-//     navigationOptions:{
-//       title: 'Result',
-//       headerTintColor: 'white'
-//     }
-//   }
-// },
-// {
-//   navigationOptions: {
-//     headerStyle: {
-//       backgroundColor: "#009BD2"
-//     }
-//   },
-// })
-
-
 const DrawerIcon = (props) =>  {
 
   return(
   <View>
       <TouchableOpacity onPress={() => props.navigation.openDrawer()}>
-          <Icon name="menu" style={{padding: 10, marginLeft:10}} size={20} color="white"/>
+          <Icon name="menu" style={{padding: 10, marginLeft:10}} size={20}/>
       </TouchableOpacity>
   </View>
   );
@@ -59,7 +26,7 @@ const GoBack = (props) =>{
   return (
       <View>
         <TouchableOpacity onPress={() => props.navigation.goBack()}>
-            <Icon name="arrow-back" style={{padding: 10, marginLeft:10}} size={20} color="white"/>
+            <Icon name="arrow-back" style={{padding: 10, marginLeft:10}} size={20} />
         </TouchableOpacity>
     </View>
   )
@@ -99,11 +66,11 @@ const StackNav = createStackNavigator({
  },
   Register: { 
     screen: RegisterScreen,
-    navigationOptions: {
+    navigationOptions:({navigation})  => ( {
       title: "Register",
       headerTintColor: '#fff',
-      headerLeft: null
-    }
+      headerLeft : <GoBack navigation={navigation} />,
+    })
   },
   Home: DrawerBar,
   DetailBudget: {
