@@ -5,44 +5,17 @@ import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Righ
 import {connect} from 'react-redux'
 import {getEventById} from '../actions/eventActions'
 import ModalEvent from '../components/ModalAddEvent'
+import ItemResultDetail from '../components/ItemResultDetail'
 
 // create a component
 class Result extends Component {
     constructor(props){
         super(props)
-        this.state={
-           fakeData: [{
-              name: "Sampoerna",
-              price: 20000
-           },
-           {
-            name: "Nü greentea",
-            price: 10000
-         },
-         {
-            name: "Frissian Flag",
-            price: 5000
-         },
-         {
-            name: "Kopiko",
-            price: 10000
-         }],
-         selected: undefined
-        }
     }
    
     async componentDidMount () {
       let id = this.props.navigation.getParam("id")._id;
       this.props.getEventById(id);
-    }
-
-    onValueChange(value) {
-       console.log("VALUE?? ", value)
-       let key = value
-      this.setState({
-        selected: key
-      });
-      console.log("onValueChange: ", this.state.selected)
     }
 
     verify(){
@@ -76,17 +49,7 @@ class Result extends Component {
                                           <Text style={{fontWeight:"600"}}>{item.item}</Text>
                                        </Left>
                                        <Right>
-                                       <Picker
-                                          mode="dropdown"
-                                          placeholderStyle={{ color: "black" }}
-                                          style={{ width: 160 }}
-                                          selectedValue={this.state.selected}
-                                          onValueChange={this.onValueChange.bind(this)}
-                                          >
-                                          {itemList.map((eachItem,index) => (
-                                             <Picker.Item label={eachItem.itemName} value={index} />
-                                          ))} 
-                                          </Picker>
+                                          <ItemResultDetail itemList={this.props.event.items} key={index} />
                                        </Right>
                                  </CardItem>
                                  <CardItem>

@@ -9,7 +9,6 @@ import axios from 'axios'
 import {connect} from 'react-redux'
 import {saveToken} from '../actions/eventActions'
 
-
 class Login extends Component{
    constructor(props){
       super(props)

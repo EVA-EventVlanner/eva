@@ -9,6 +9,7 @@ import MyProfileScreen from './src/screen/MyProfile'
 import DetailBudgetScreen from './src/screen/DetailBudgetScreen'
 import ResultScreen from './src/screen/Result'
 import {createStackNavigator, createDrawerNavigator} from 'react-navigation';
+
 const HomeStack = createStackNavigator ({
   Home: {
     screen: HomeScreen,
@@ -57,9 +58,7 @@ const DrawerBar = createDrawerNavigator({
     }
   },
 }, {
-  navigationOptions: {
-    drawerIcon: 'md-home',
-  }
+  
 })
 
 const StackNav = createStackNavigator({
@@ -81,6 +80,7 @@ const StackNav = createStackNavigator({
 }, 
 {
   initialRouteName: 'Login',
+  // headerMode: 'float',
   navigationOptions: {
     headerStyle: {
       backgroundColor: "#009BD2"
