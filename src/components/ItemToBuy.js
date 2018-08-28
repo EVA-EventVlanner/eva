@@ -17,17 +17,71 @@ import {
 } from "native-base";
 
 import ImagePicker from 'react-native-image-picker'
+import storageRef from "../firebase/firebase";
 import RNFetchBlob from "react-native-fetch-blob";
 // import RNFetchBlob from "../../node_modules/react-native-fetch-blob/index";
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
-import axios from 'axios'
+// import axios from 'axios'
 
 // create a component
 class MyClass extends Component {
-	
+	_navigate(){
+		this.props.navigator.push({
+		  name: 'Result', // Matches route.name
+		})
+	}
+
+	uploadToGoogleStorage () {
+		ImagePicker.showImagePicker({ title: 'Select Image' }, (response) => {
+			
+			console.log('ini response image picker : ', response)
+
+			console.log('ini response.uri awal --> ', response.uri)
+
+			response.uri = 'file://' + response.uri
+			response.path = 'file://' + response.path
+
+			console.log('ini response.uri baru ---> ', response.uri)
+
+			// format the image data 
+			let image = {
+			  uri: response.uri,
+			  type: response.type,
+			  name: 'myImage' + '-' + Date.now() + '.jpg'
+			}
+
+			// Instantiate a FormData() object
+			let imgBody = new FormData();
+			
+			// append the image to the object with the title 'image'
+			imgBody.append('image', image);
+			let url = `https://eva-server.ariefardi.xyz/vision/analyze`;
+
+			console.log('imgBody sent to server --> ', imgBody)
+			
+			// Perform the request. Note the content type - very important
+			fetch(url, {
+				method: 'POST',
+				// headers: {
+				// 	'Accept': 'application/json',
+				// 	'Content-Type': 'multipart/form-data'
+				// },
+				body: imgBody
+			}).then(res => {
+				let visionResult = JSON.parse(res._bodyInit).result
+
+				console.log(visionResult)
+
+				this._navigate()
+			}).catch(error => {
+				console.error(error);
+			});
+		});
+	}
+
 	uploadToStorage() {
 		console.log("openGallery");
 		
@@ -101,9 +155,6 @@ class MyClass extends Component {
 		})
 	}
 
-
-
-
 	render() {
 		let item = this.props.item;
 		console.log("=====>>>>", this.props)
@@ -133,7 +184,8 @@ class MyClass extends Component {
 				<Text> Item Qty: {item.quantity} </Text>
 			</Body>
 			<Body style={{ marginTop: 0 }}>
-				<Button onPress={() => navigate("Result")} rounded>
+				{/* <Button onPress={() => navigate("Result")} rounded> */}
+				<Button onPress={() => this.uploadToGoogleStorage()} rounded>
 				<Icon name="ios-camera" />
 				</Button>
 			</Body>
