@@ -6,7 +6,7 @@ import store from './src/store/store'
 import {name as appName} from './app.json';
 import {Provider} from 'react-redux'
 
-console.disableYellowBox = true;
+// console.disableYellowBox = true;
 
 const RNRedux = () => (
     <Provider store={store}>

@@ -5,31 +5,12 @@ import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Righ
 import {connect} from 'react-redux'
 import {getEventById} from '../actions/eventActions'
 import ModalEvent from '../components/ModalAddEvent'
+import ItemResultDetail from '../components/ItemResultDetail'
 
 // create a component
 class Result extends Component {
     constructor(props){
         super(props)
-        this.state={
-           fakeData: [{
-              name: "Sampoerna",
-              price: 20000
-           },
-           {
-            name: "Nü greentea",
-            price: 10000
-         },
-         {
-            name: "Frissian Flag",
-            price: 5000
-         },
-         {
-            name: "Kopiko",
-            price: 10000
-         }],
-         selected: "key1"
-        }
-        this.onValueChange = this.onValueChange.bind(this);
     }
    
     async componentDidMount () {
@@ -37,37 +18,8 @@ class Result extends Component {
       this.props.getEventById(id);
     }
 
-    onValueChange(value) {
-       console.log("VALUE?? ", value)
-       let key = value
-      this.setState({
-        selected: key
-      }, function () {
-         console.log("onValueChange: ", this.state.selected)
-      });
-    }
-
     verify(){
       alert("clicked verify")
-    }
-
-    generatePicker(){
-       return(
-         <Picker
-         mode="dropdown"
-         iosHeader="Select your SIM"
-         iosIcon={<Icon name="ios-arrow-down-outline" />}
-         style={{ width: 150 }}
-         selectedValue={this.state.selected}
-         onValueChange={this.onValueChange}
-         >
-            <Picker.Item label="Wallet" value="key0" />
-            <Picker.Item label="ATM Card" value="key1" />
-            <Picker.Item label="Debit Card" value="key2" />
-            <Picker.Item label="Credit Card" value="key3" />
-            <Picker.Item label="Net Banking" value="key4" />
-         </Picker>
-       )
     }
 
     render() {
@@ -97,18 +49,7 @@ class Result extends Component {
                                           <Text style={{fontWeight:"600"}}>{item.item}</Text>
                                        </Left>
                                        <Right>
-                                          {this.generatePicker()}
-                                          {/* <Picker
-                                             mode="dropdown"
-                                             placeholderStyle={{ color: "black" }}
-                                             style={{ width: 160 }}
-                                             selectedValue={this.state.selected}
-                                             onValueChange={this.onValueChange}
-                                             >
-                                             {itemList.map((eachItem,index) => (
-                                                <Picker.Item label={eachItem.itemName} value={index} />
-                                             ))} 
-                                          </Picker> */}
+                                          <ItemResultDetail itemList={this.props.event.items} key={index} />
                                        </Right>
                                  </CardItem>
                                  <CardItem>
