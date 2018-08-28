@@ -28,10 +28,8 @@ window.Blob = Blob;
 
 // create a component
 class MyClass extends Component {
-	_navigate(){
-		this.props.navigator.push({
-		  name: 'Result', // Matches route.name
-		})
+	constructor(props) {
+		super(props)
 	}
 
 	uploadToGoogleStorage () {
@@ -73,9 +71,12 @@ class MyClass extends Component {
 			}).then(res => {
 				let visionResult = JSON.parse(res._bodyInit).result
 
-				console.log(visionResult)
+				console.log('ini vision result --> ', visionResult)
+				
+				this.props.navigation.navigate('Result', {
+					visionResult: visionResult
+				})
 
-				this._navigate()
 			}).catch(error => {
 				console.error(error);
 			});

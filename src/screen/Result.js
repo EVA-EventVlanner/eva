@@ -50,9 +50,14 @@ class Result extends Component {
     }
 
     render() {
+        let visionResult = this.props.navigation.getParam("visionResult");
+
+        console.log('vision result dari komponen result ---> ', visionResult)
+
         console.log("ini dari result: " , this.props)
         let itemList = this.props.event.items
         console.log("INI ITEM LIST: ", itemList)
+
          return (
                <Container>
                   <Content>
@@ -62,13 +67,13 @@ class Result extends Component {
                            </CardItem>
                      </Card> 
                      <FlatList
-                           data={this.state.fakeData}
+                           data={visionResult.receiptItems}
                            renderItem={({ item, index }) => {
                               return (
                               <Card style={{ borderRadius: 10 }} key={String(index)}> 
                                  <CardItem>
                                        <Left>
-                                          <Text style={{fontWeight:"600"}}>{item.name}</Text>
+                                          <Text style={{fontWeight:"600"}}>{item.item}</Text>
                                        </Left>
                                        <Right>
                                        <Picker
@@ -86,7 +91,7 @@ class Result extends Component {
                                  </CardItem>
                                  <CardItem>
                                     <Left>
-                                       <Text style={{fontWeight:"600"}}>Rp {item.price}</Text>
+                                       <Text style={{fontWeight:"600"}}>Rp {item.number}</Text>
                                     </Left>
                                     <Right>
                                     <Button
