@@ -107,7 +107,7 @@ class Result extends Component {
                                        <Text style={{fontWeight:"600"}}>Rp {" " + item.number.toLocaleString()}</Text>
                                     </Left>
                                     <Body>
-                                        <Text style={{fontWeight:"600"}}> Qty : item.quantity }</Text>
+                                        <Text style={{fontWeight:"600"}}> Qty : {item.quantity ? item.quantity : 1 }</Text>
                                     </Body>
                                     <Right>
                                     <Button
