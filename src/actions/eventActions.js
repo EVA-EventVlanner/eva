@@ -29,13 +29,11 @@ export function setTokenToState(payload) {
   };
 }
 
-export function fetchingDataUser(token) {
+export function fetchingDataUser(id) {
   return dispatch => {
-    let id = store.getState().eventReducers.userId;
     axios
       .get("https://eva-server.ariefardi.xyz/users/" + id)
       .then(({ data }) => {
-        console.log(data.user, " ini data user");
         return dispatch(setUserToState(data.user));
       });
   };
