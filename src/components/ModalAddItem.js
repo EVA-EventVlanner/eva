@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from "react";
-import { View, StyleSheet, Modal, Platform, ScrollView } from "react-native";
+import { View, StyleSheet, Modal, Platform, ScrollView, ActivityIndicator } from "react-native";
 import {
   Button,
   Icon,
@@ -11,7 +11,9 @@ import {
   Right,
   Text,
   Thumbnail,
-  CardItem
+  CardItem,
+  Label,
+  Card
 } from "native-base";
 import ImagePicker from "react-native-image-picker";
 import storageRef from "../firebase/firebase";
@@ -36,9 +38,15 @@ class ModalAddItem extends Component {
     itemPrice: null,
     quantity: null,
     eventId: this.props.eventId,
-    avatarSource:
-      "https://facebook.github.io/react-native/docs/assets/favicon.png"
+    avatarSource:'',
+      // "https://facebook.github.io/react-native/docs/assets/favicon.png",
+    loading: false
   };
+
+  componentDidMount(){
+    console.log("ini modal add item: ")
+    console.log("modal--->", this.props)
+  }
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
@@ -64,7 +72,9 @@ class ModalAddItem extends Component {
     this.props.AddItemToEvent(this.state);
 
     this.setState({
-      modalVisible: false
+      modalVisible: false,
+      avatarSource: ''
+
     })
   }
 
@@ -103,7 +113,7 @@ class ModalAddItem extends Component {
     console.log("openGallery");
 
     var options = {
-      title: "Select Avatar",
+      title: "Select Image",
       customButtons: [{ name: "fb", title: "Choose Photo from Facebook" }],
       storageOptions: {
         skipBackup: true,
@@ -120,10 +130,16 @@ class ModalAddItem extends Component {
       } else if (response.customButton) {
         console.log("User tapped custom button: ", response.customButton);
       } else {
+
+        this.setState({
+          loading: true,
+        })
+
         this.uploadImage(response)
           .then(url => {
             console.log(url);
             this.setState({
+              loading: false,
               avatarSource: url
             });
           })
@@ -136,7 +152,7 @@ class ModalAddItem extends Component {
 
   render() {
     return (
-      <ScrollView style={{ marginTop: 10 }}>
+      <View style={styles.container}>
         <Modal
           animationType="slide"
           transparent={false}
@@ -145,49 +161,48 @@ class ModalAddItem extends Component {
             this.setModalVisible(!this.state.modalVisible);
           }}
         >
-          <View style={{ marginTop: 200 }}>
-            <Item>
+          <ScrollView style={{marginTop: 100}}>
+            <Item style={{ marginTop: 20 }}>
+              <Label>Item Name:</Label>
               <Input
-                color={"grey"}
-                placeholder="Input item name"
+                name="itemName"
                 onChangeText={text => this.onChangeItemName(text)}
-                style={{ marginTop: 20 }}
               />
             </Item>
-            <Item>
+            <Item style={{ marginTop: 20 }}>
+              <Label>Price:</Label>
               <Input
-                color={"grey"}
-                placeholder="Input price"
-                onChangeText={text => this.onChangeItemPrice(text)}
-                style={{ marginTop: 20 }}
+                onChangeText={text => this.onChangeItemPrice(text)} 
               />
             </Item>
-            <Item>
+            <Item style={{ marginTop: 20 }}>
+              <Label>Quantity:</Label>
               <Input
-                color={"grey"}
-                placeholder="Input quantity"
                 onChangeText={text => this.onChangeQuantity(text)}
-                style={{ marginTop: 20 }}
               />
             </Item>
-          </View>
-          <CardItem>
+          </ScrollView>
+          <CardItem style={{margin: 15}}>
             <Left>
               <Button
                 onPress={() => {
                   this.openGallery();
                 }}
-                style={{ width: 100, marginTop: 20 }}
+                style={{ width: 100, marginTop: 10 }}
               >
                 <Text style={{ paddingLeft: 30 }}> add image </Text>
               </Button>
             </Left>
+              { this.state.loading
+                ? <ActivityIndicator style={{marginRight: 35}}/>
+                : <Thumbnail medium square source={{uri: this.state.avatarSource}} style={{marginRight: 25}}/>
+              }
             <Right>
               <Button
                 onPress={() => {
                   this.submitItem();
                 }}
-                style={{ width: 100, marginTop: 20 }}
+                style={{ width: 100, marginTop: 20, marginBottom: 10 }}
               >
                 <Text style={{ paddingBottom: 3, paddingLeft: 20 }}>
                   {" "}
@@ -196,16 +211,17 @@ class ModalAddItem extends Component {
               </Button>
             </Right>
           </CardItem>
-          <View>
-            <Thumbnail
+          {/* <View> */}
+         
+            {/* <Thumbnail
               style={{ marginLeft: "40.5%", marginTop: -60 }}
               square
               large
               source={{
                 uri: this.state.avatarSource
               }}
-            />
-          </View>
+            /> */}
+          {/* </View> */}
         </Modal>
         <Button
           onPress={() => {
@@ -217,7 +233,7 @@ class ModalAddItem extends Component {
           <Icon style={{ marginLeft: 50, paddingRight: 0 }} name="md-cart" />
           <Text style={{ marginRight: 35, paddingLeft: 0 }}>Add Item</Text>
         </Button>
-      </ScrollView>
+      </View>
     );
   }
 }
@@ -225,8 +241,9 @@ class ModalAddItem extends Component {
 // define your styles
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: "center",
-    backgroundColor: "#2c3e50"
+    alignItems: "center",
   }
 });
 

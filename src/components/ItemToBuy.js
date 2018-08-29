@@ -34,16 +34,6 @@ class MyClass extends Component {
 
   uploadToGoogleStorage() {
     ImagePicker.showImagePicker({ title: "Select Image" }, response => {
-      //   console.log("ini response image picker : ", response);
-
-      //   console.log("ini response.uri awal --> ", response.uri);
-
-      //   response.uri = "file://" + response.uri;
-      //   response.path = "file://" + response.path;
-
-      //   console.log("ini response.uri baru ---> ", response.uri);
-
-      // format the image data
       if (response.didCancel) {
         console.log("User cancelled image picker");
       } else if (response.error) {
@@ -116,10 +106,10 @@ class MyClass extends Component {
             </Body>
           </CardItem>
           <Body>
-            <Text> {item.itemName} </Text>
+            <Text style={{fontWeight:"500", fontSize: 18}}> {item.itemName} </Text>
           </Body>
           <Body style={{ marginTop: -30 }}>
-            <Text> Quantity: {item.quantity} </Text>
+            <Text style={{fontWeight:"500"}}> Quantity: <Text style={{fontWeight:"400"}}>{item.quantity}</Text> </Text>
           </Body>
           <Body style={{ marginTop: 0 }}>
             <Button disabled={ item.quantity ? false : true } onPress={() => this.uploadToGoogleStorage()} rounded>

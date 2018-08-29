@@ -103,8 +103,14 @@ class Result extends Component {
         })
     }
 
-    finishVerify () {
-        this.props.navigation.navigate("Home")
+    async finishVerify () {
+        console.log("Verify: ", this.props)
+        let eventId = store.getState().eventReducers.event._id
+        let event = await getEventById(eventId)
+        console.log("Verify ini event: ", event)
+        this.props.navigation.navigate("DetailBudget", {
+            id: event
+        })
     }
 
     render() {
@@ -124,7 +130,7 @@ class Result extends Component {
                   <Content>
                      <Card>
                            <CardItem style={{justifyContent:'center'}}>
-                              <Text style={{textAlign:'center', fontSize:25, fontWeight:'500'}}> Event Name </Text>
+                              <Text style={{textAlign:'center', fontSize:25, fontWeight:'500'}}> {this.props.event.eventName} </Text>
                            </CardItem>
                      </Card> 
                      <FlatList
@@ -144,9 +150,7 @@ class Result extends Component {
                                     <Left>
                                        <Text style={{fontWeight:"600"}}>Rp {" " + item.number.toLocaleString()}</Text>
                                     </Left>
-                                    <Body>
-                                        <Text style={{fontWeight:"600"}}> Qty : { item.quantity ? item.quantity : 1 }</Text>
-                                    </Body>
+                                    <Text style={{fontWeight:"600", flex:1, justifyContent: 'center'}}> Qty : { item.quantity ? item.quantity : 1 }</Text>
                                     <Right>
                                     <Button disabled={ item.disabled ? true : false }
                                        onPress={() => {
