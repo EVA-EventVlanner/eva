@@ -1,13 +1,32 @@
 //import liraries
-import React, { Component } from 'react';
-import { StyleSheet, AsyncStorage, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
-import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Right, Left, Body, Form, Picker } from 'native-base';
-import {connect} from 'react-redux'
-import {getEventById, fetchingDataUser} from '../actions/eventActions'
-import ModalEvent from '../components/ModalAddEvent'
-import ItemResultDetail from '../components/ItemResultDetail'
-import axios from 'axios'
-import store from '../store/store'
+import React, { Component } from "react";
+import {
+  StyleSheet,
+  AsyncStorage,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
+  ScrollView
+} from "react-native";
+import {
+  Container,
+  Content,
+  Card,
+  CardItem,
+  Thumbnail,
+  Text,
+  Button,
+  Icon,
+  Right,
+  Left,
+  Body,
+  Form,
+  Picker
+} from "native-base";
+import { connect } from "react-redux";
+import { getEventById } from "../actions/eventActions";
+import ModalEvent from "../components/ModalAddEvent";
+import ItemResultDetail from "../components/ItemResultDetail";
 
 // create a component
 class Result extends Component {
@@ -185,33 +204,32 @@ class Result extends Component {
                   </Content>
             </Container>
          );
-      }   
+      }
 }
 
 // define your styles
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#2c3e50',
-    }
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#2c3e50"
+  }
 });
 
 //make this component available to the app
-const mapStateToProps = (state) => {
-   return {
-      event: state.eventReducers.event,
-      getUser :  state.eventReducers.user
-   }
-}
-
-const mapDispatchToProps = dispatch => {
-    return {
-        getEventById: id => dispatch(getEventById(id)),
-        getUserData: () => dispatch(fetchingDataUser())
-    }
+const mapStateToProps = state => {
+  return {
+    event: state.eventReducers.event
+  };
 };
- 
+const mapDispatchToProps = dispatch => {
+  return { getEventById: id => dispatch(getEventById(id)) };
 
-export default connect(mapStateToProps,mapDispatchToProps)(Result)
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Result);
+
