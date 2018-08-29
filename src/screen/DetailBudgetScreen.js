@@ -44,6 +44,10 @@ class DetailBudgetScreen extends Component {
 
 
   render() {
+    let user = store.getState().eventReducers.user
+
+    console.log('userdaristore : ', user)
+
     if (this.props.event) {
       const { navigation } = this.props;
       const event = this.props.event;
@@ -86,7 +90,7 @@ class DetailBudgetScreen extends Component {
               <Left>
                 <Thumbnail source={{ uri: event.admin.imageProfile }} />
                 <Body>
-                  <Text style={{fontWeight: "500", fontSize: 18 }}>{event.admin.name}</Text>
+                  <Text style={{fontWeight: "500", fontSize: 18 }}>{event.admin.username}</Text>
                   <Text style={{color:"#BA55D3"}}>{event.admin.role[0]}</Text>
                 </Body>
               </Left>
@@ -104,7 +108,11 @@ class DetailBudgetScreen extends Component {
             <CardItem>
               <Left></Left>
               <Right>
-                <ModalAddItem eventId={event._id} />
+                { (event.admin.role[0] === 'admin') && (
+                    <ModalAddItem eventId={event._id} />
+                  ) 
+                }
+                
               </Right>
             </CardItem>
           </Card>
