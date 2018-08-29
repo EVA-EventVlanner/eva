@@ -174,12 +174,13 @@ const mapStateToProps = state => {
     event: state.eventReducers.event
   };
 };
-
 const mapDispatchToProps = dispatch => {
   return { getEventById: id => dispatch(getEventById(id)) };
+
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Result);
+

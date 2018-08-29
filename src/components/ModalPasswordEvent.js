@@ -13,6 +13,10 @@ class ModalPasswordEvent extends Component {
 		password: null
 	}
 
+	componentDidMount() {
+		console.log('user id di modal password : ', this.props.userId)
+	}
+
 	async checkMemberStatus(){
 		let userId = store.getState().eventReducers.userId
 		let eventId = this.props.eventId
@@ -98,7 +102,7 @@ class ModalPasswordEvent extends Component {
 				<View style={{ marginTop: 200 }}>
 					<Card>
 						<CardItem>
-							<Item floatingLabel>
+							<Item>
 								<Label>Input password</Label>
 								<Input
 									color={"grey"}
