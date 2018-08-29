@@ -19,6 +19,7 @@ import ModalPasswordEvent from "./ModalPasswordEvent";
 
 class CardEvent extends Component {
   render() {
+    console.log('user id di card event : ', this.props.userId)
     const item = this.props.item;
     const imgUrl = item.imageUrl;
     const navigation = this.props.navigation;
@@ -52,6 +53,7 @@ class CardEvent extends Component {
               navigation={navigation}
               eventId={item._id}
               event={item}
+              userId={this.props.userId}
             />
           </Left>
         </CardItem>

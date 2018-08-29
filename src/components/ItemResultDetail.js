@@ -14,17 +14,18 @@ class ItemResultDetail extends Component {
     }
    
     onValueChange(value) {
-       console.log("VALUE?? ", value)
-       let key = value
-      this.setState({
-        selected: key
-      }, function () {
-         console.log("onValueChange: ", this.state.selected)
-      });
+        console.log("VALUE?? ", value)
+        let key = value
+        this.setState({
+            selected: key
+        }, function () {
+            console.log("onValueChange: ", this.state.selected)
+            this.props.getIndex(this.state.selected)
+        });
     }
 
     render() {
-         let {itemList} = this.props
+         let { itemList } = this.props
          console.log("item detail props: ", this.props)
          return (
                <Picker
@@ -33,9 +34,13 @@ class ItemResultDetail extends Component {
                   selectedValue={this.state.selected}
                   onValueChange={this.onValueChange}
                   >
-                  {itemList.map((eachItem,index) => (
-                     <Picker.Item label={eachItem.itemName} value={index} />
-                  ))} 
+                  {
+                        itemList.map( function (eachItem, index) {
+                            return (
+                                <Picker.Item label={eachItem.itemName} value={index} />
+                            )
+                        })
+                  } 
                </Picker>
          );
       }   

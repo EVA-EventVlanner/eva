@@ -62,11 +62,18 @@ class Login extends Component{
         console.log('----------> BARU MASUK nih abis di login')
         AsyncStorage.setItem("token", `${data.token}`)
         AsyncStorage.setItem("userId", `${data.found._id}`)
+        
         let temp = {
           token: data.token,
           userId: data.found._id
         }
-        this.props.navigation.navigate('Home')
+
+        console.log(temp)
+
+        this.props.navigation.navigate('Home', {
+            userId: data.found._id,
+        })
+
         this.props.saveToken(temp)
         alert(data.message)
       } catch(err) {
@@ -87,11 +94,11 @@ class Login extends Component{
                   <CardItem>
                      <Body>
                         <Form style={{width:'100%'}}>
-                           <Item floatingLabel>
+                           <Item>
                               <Label>Username</Label>
                               <Input name="Username" onChangeText={(text)=> this.handleChangeUsername(text)} />
                            </Item>
-                           <Item floatingLabel last>
+                           <Item>
                               <Label>Password</Label>
                               <Input secureTextEntry={this.state.hidePassword} name="password"  onChangeText={(text)=> this.handleChangePassword(text)}  />
                               <Icon name={this.state.eye} onPress={(e) => this.toggleDisplay(e)} color="white"/> 

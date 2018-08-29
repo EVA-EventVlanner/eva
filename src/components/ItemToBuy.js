@@ -68,7 +68,7 @@ class MyClass extends Component {
 
         // Perform the request. Note the content type - very important
         axios
-          .post(url, { type: "transport" })
+          .post(url, { type: "needs" })
           .then(res => {
             let visionResult = res.data.result;
 
@@ -89,9 +89,9 @@ class MyClass extends Component {
     let item = this.props.item;
     console.log("=====>>>>", this.props);
     let { navigate } = this.props.navigation;
-    if (item !== undefined) {
+    if (item !== undefined && item.quantity > 0) {
       return (
-        <Card style={{ height: 200, width: 150 }}>
+        <Card style={{ height: 250, width: 150 }}>
           <CardItem>
             <Body
               style={{
@@ -111,10 +111,9 @@ class MyClass extends Component {
             <Text> {item.itemName} </Text>
           </Body>
           <Body style={{ marginTop: -30 }}>
-            <Text> Item Qty: {item.quantity} </Text>
+            <Text> Quantity: {item.quantity} </Text>
           </Body>
           <Body style={{ marginTop: 0 }}>
-            {/* <Button onPress={() => navigate("Result")} rounded> */}
             <Button onPress={() => this.uploadToGoogleStorage()} rounded>
               <Icon name="ios-camera" />
             </Button>
