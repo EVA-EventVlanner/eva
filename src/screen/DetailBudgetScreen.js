@@ -50,7 +50,7 @@ class DetailBudgetScreen extends Component {
             style={{ height: 202, width: null, flex: 1 }}
           />
           <Card style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }}>
-            <CardItem style={{ height: 100 }}>
+            <CardItem style={{ height: 80 }}>
               <Left>
                 <Body>
                   <Text> {event.eventName} </Text>
@@ -102,14 +102,8 @@ class DetailBudgetScreen extends Component {
             {event.items.map((item, index) => (
               <ItemToBuy navigation={this.props.navigation} key={index} item={item} />
             ))}
-            {event.items.map((item, index) => (
-              <ItemToBuy navigation={this.props.navigation} key={index} item={item} />
-            ))}
           </ScrollView>
           <ScrollView horizontal>
-            {event.items.map((item, index) => (
-              <ItemToBuy navigation={this.props.navigation} key={index} item={item} />
-            ))}
             {event.items.map((item, index) => (
               <ItemToBuy navigation={this.props.navigation} key={index} item={item} />
             ))}
