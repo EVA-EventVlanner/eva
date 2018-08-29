@@ -67,8 +67,15 @@ class MyClass extends Component {
         console.log("imgBody sent to server --> ", imgBody);
 
         // Perform the request. Note the content type - very important
+        let typeItem = "";
+        if (this.props.item.itemName === "transport") {
+          typeItem = "transport";
+        } else {
+          typeItem = "needs";
+        }
         axios
-          .post(url, { type: this.props.item.itemName })
+          .post(url, { type: typeItem })
+
           .then(res => {
             let visionResult = res.data.result;
 
