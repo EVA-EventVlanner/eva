@@ -7,6 +7,8 @@ import {connect} from 'react-redux'
 import ImagePicker from "react-native-image-picker";
 import storageRef from "../firebase/firebase";
 import RNFetchBlob from "react-native-fetch-blob";
+import store from '../store/store'
+
 // import RNFetchBlob from "../../node_modules/react-native-fetch-blob/index";
 const Blob = RNFetchBlob.polyfill.Blob;
 const fs = RNFetchBlob.fs;
@@ -116,6 +118,8 @@ class ModalAddEvent extends Component {
 
       const {data} = await axios.post('https://eva-server.ariefardi.xyz/events', newData, { headers:{token: token}})
       console.log("Balik dari axios buat confirmation: ", data)
+      // let id = store.getState().eventReducers.userId;
+      // this.props.getUserData(id)
       this.setModalVisible(!this.state.modalVisible)
     }
     else{
@@ -170,7 +174,7 @@ class ModalAddEvent extends Component {
 		console.log("openGallery")
 
 		var options = {
-			title: "Select Avatar",
+			title: "Select Image",
 			customButtons: [{ name: "fb", title: "Choose Photo from Facebook" }],
 			storageOptions: {
 				skipBackup: true,
@@ -190,11 +194,6 @@ class ModalAddEvent extends Component {
         this.setState({
           loading: true,
         })
-				// let source = { uri: response.uri };
-
-				// You can also display the image using data:
-				// let source = { uri: 'data:image/jpeg;base64,' + response.data };
-				// console.log(source, " ini source");
 				this.uploadImage(response)
 				.then(url => {
           console.log("---> url : ", url);
@@ -225,24 +224,24 @@ class ModalAddEvent extends Component {
             <Card>
                < CardItem>
                   <Form style={{width:'100%'}}>
-                     <Item floatingLabel>
-                        <Label>Event Name</Label>
+                     <Item >
+                        <Label>Event Name: </Label>
                         <Input name="eventName" onChangeText={(text)=> this.onchangeEventName(text)} />
                      </Item>
-                     <Item floatingLabel>
-                        <Label>Set Password for Event</Label>
+                     <Item >
+                        <Label>Event Password: </Label>
                         <Input secureTextEntry={this.state.hidePassword} name="password"  onChangeText={(text)=> this.onchangePassword(text)}/>
                      </Item>
-                     <Item floatingLabel>
-                        <Label>Budget</Label>
+                     <Item >
+                        <Label>Budget: </Label>
                         <Input name="budget" onChangeText={(text)=> this.onchangeBudget(text)} />
                      </Item>
-                     <Item floatingLabel>
-                        <Label>Description </Label>
+                     <Item >
+                        <Label>Description: </Label>
                         <Input name="description" onChangeText={(text)=> this.onchangeDescription(text)} />
                      </Item>
                      <Item inlineLabel style={{paddingTop: 35}}>
-                        <Label style={{marginRight: 8}}>Image </Label>
+                        <Label style={{marginRight: 8}}>Image: </Label>
                           { this.state.loading
                             ? <ActivityIndicator medium/>
                             : <Thumbnail medium square source={{uri: this.state.imageUrl}} style={{marginBottom: 5}}/>
@@ -260,7 +259,7 @@ class ModalAddEvent extends Component {
                         </Right>
                      </Item>
                      <Item inlineLabel style={{paddingTop: 35}} last>
-                        <Label>Select Date of Event </Label>
+                        <Label>Event Date: </Label>
                         <TouchableWithoutFeedback onPress={this.showPicker.bind(this, 'simple', { date: this.state.simpleDate})}>
                         <Text> {this.state.simpleText} </Text>
                         </TouchableWithoutFeedback>
