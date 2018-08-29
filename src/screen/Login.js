@@ -88,9 +88,6 @@ class Login extends Component{
          <Container>
             <Content>
                <Card style={{flex: 1}}>
-                  {/* <CardItem header style={{backgroundColor: "#009BD2"}}>
-                     <Text style={styles.headerText}>Sign In</Text>
-                  </CardItem> */}
                   <CardItem>
                      <Body>
                         <Form style={{width:'100%'}}>

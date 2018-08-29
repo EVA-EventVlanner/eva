@@ -5,7 +5,7 @@ import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Righ
 import {connect} from 'react-redux'
 import {fetchingDataUser} from '../actions/eventActions'
 import ModalEvent from '../components/ModalAddEvent'
-
+import store from '../store/store'
 // create a component
 class MyEvents extends Component {
     constructor(props){
@@ -15,10 +15,17 @@ class MyEvents extends Component {
     async componentDidMount () {
         const token = await AsyncStorage.getItem('token')
         console.log('ini token dari myevent', token)
-        this.props.getUserData()
-        
+        let id = store.getState().eventReducers.userId;
+        this.props.getUserData(id)
     }
-
+    
+    componentDidUpdate(prevProps) {
+        if (prevProps.getUser !== this.props.getUser) {
+            let id = store.getState().eventReducers.userId;
+            this.props.getUserData(id)
+        }
+    }
+    
     goToEvent(item){
         console.log("ini item: ", item)
         this.props.navigation.navigate("DetailBudget", {
@@ -101,7 +108,7 @@ const mapStateToProps = (state) => {
   }
  const mapDispatchToProps = dispatch => {
   return {
-    getUserData: () => dispatch(fetchingDataUser())
+    getUserData: (id) => dispatch(fetchingDataUser(id))
   }
 }
 

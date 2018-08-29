@@ -83,25 +83,22 @@ class Register extends Component{
          <Container>
             <Content>
                <Card style={{flex: 1}}>
-                  {/* <CardItem header style={{backgroundColor: "#009BD2"}}>
-                     <Text style={styles.headerText}>Register</Text>
-                  </CardItem> */}
                   <CardItem>
                      <Body>
                         <Form style={{width:'100%'}}>
-                           <Item floatingLabel>
+                           <Item >
                               <Label>Name</Label>
                               <Input name="name" onChangeText={(text)=> this.handleChangeName(text)} />
                            </Item>
-                           <Item floatingLabel>
+                           <Item>
                               <Label>Email</Label>
                               <Input name="email" onChangeText={(text)=> this.handleChangeEmail(text)} />
                            </Item>
-                           <Item floatingLabel>
+                           <Item>
                               <Label>Username</Label>
                               <Input name="username" onChangeText={(text)=> this.handleChangeUsername(text)} />
                            </Item>
-                           <Item floatingLabel last>
+                           <Item last>
                               <Label>Password</Label>
                               <Input secureTextEntry={this.state.hidePassword} name="password" value={this.state.password} onChangeText={(text)=> this.handleChangePassword(text)}  />
                               <Icon name={this.state.eye} onPress={(e) => this.toggleDisplay(e)} color="white"/> 

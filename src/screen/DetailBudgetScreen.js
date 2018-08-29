@@ -33,6 +33,16 @@ class DetailBudgetScreen extends Component {
     let id = this.props.navigation.getParam("id")._id;
     this.props.getEventById(id);
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.event.items !== this.props.event.items ) {
+      let id = this.props.navigation.getParam("id")._id;
+      console.log("Update budget???")
+      this.props.getEventById(id);
+    }
+  }
+
+
   render() {
     if (this.props.event) {
       const { navigation } = this.props;
@@ -47,13 +57,13 @@ class DetailBudgetScreen extends Component {
         <ScrollView>
           <Image
             source={{ uri: imageUrl }}
-            style={{ height: 202, width: null, flex: 1 }}
+            style={{ height: 70, width: "100%", flex: 1 }}
           />
           <Card style={{ marginTop: 10, marginLeft: 10, marginRight: 10 }}>
             <CardItem style={{ height: 80 }}>
               <Left>
                 <Body>
-                  <Text> {event.eventName} </Text>
+                  <Text style={{fontSize: 30, fontWeight:"500", textAlign:'center', marginTop: 15}}> {event.eventName} </Text>
                   <Text note> {event.location} </Text>
                 </Body>
               </Left>
@@ -76,18 +86,18 @@ class DetailBudgetScreen extends Component {
               <Left>
                 <Thumbnail source={{ uri: event.admin.imageProfile }} />
                 <Body>
-                  <Text>{event.admin.name}</Text>
-                  <Text>{event.admin.role[0]}</Text>
+                  <Text style={{fontWeight: "500", fontSize: 18 }}>{event.admin.name}</Text>
+                  <Text style={{color:"#BA55D3"}}>{event.admin.role[0]}</Text>
                 </Body>
               </Left>
             </CardItem>
             <CardItem>
               <Body>
-                <Text style={{ color: "#1c82f0", marginLeft: -9 }}>
-                  Budget : Rp {" " + event.budget.toLocaleString()}
+                <Text style={{ color: "#1c82f0", marginLeft: -9, fontWeight:"600" }}>
+                  Budget :<Text style={{color: 'black'}}> Rp {" " + event.budget.toLocaleString()}</Text>
                 </Text>
-                <Text style={{ color: "#1c82f0", marginLeft: -9 }}>
-                  Remains : Rp {" " + event.currentBudget.toLocaleString()}
+                <Text style={{ color: "#1c82f0", marginLeft: -9, fontWeight:"600" }}>
+                  Remains :<Text style={{color: 'red'}}> Rp {" " + event.currentBudget.toLocaleString()}</Text>
                 </Text>
               </Body>
             </CardItem>
@@ -98,12 +108,7 @@ class DetailBudgetScreen extends Component {
               </Right>
             </CardItem>
           </Card>
-          <ScrollView horizontal>
-            {event.items.map((item, index) => (
-              <ItemToBuy navigation={this.props.navigation} key={index} item={item} />
-            ))}
-          </ScrollView>
-          <ScrollView horizontal>
+          <ScrollView horizontal style={{height:520}}>
             {event.items.map((item, index) => (
               <ItemToBuy navigation={this.props.navigation} key={index} item={item} />
             ))}
