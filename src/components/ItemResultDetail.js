@@ -42,6 +42,7 @@ class ItemResultDetail extends Component {
       },
       function() {
         console.log("onValueChange: ", this.state.selected);
+        this.props.getIndex(this.state.selected)
       }
     );
   }

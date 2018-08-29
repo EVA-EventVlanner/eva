@@ -26,6 +26,10 @@ window.Blob = Blob;
 
 // create a component
 class ModalAddItem extends Component {
+  constructor(props) {
+    super(props)
+  }
+
   state = {
     modalVisible: false,
     itemName: null,
@@ -58,6 +62,10 @@ class ModalAddItem extends Component {
   submitItem() {
     // console.log(this.props.eventId);
     this.props.AddItemToEvent(this.state);
+
+    this.setState({
+      modalVisible: false
+    })
   }
 
   uploadImage(response, mime = "application/octet-stream") {
