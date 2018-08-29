@@ -17,16 +17,23 @@ class Result extends Component {
             indexListSelected: 0,
             userId: '',
             eventId: '',
-            itemId: ''
+            itemId: '',
+            visionResult: []
         }
 
         this.getItemIndexSelector = this.getItemIndexSelector.bind(this)
+        this.getVisionResult = this.getVisionResult.bind(this)
     }
    
+    getVisionResult(dataVisionResult) {
+        
+    }
+
     async componentDidMount () {
       let id = this.props.navigation.getParam("id")._id;
       this.props.getEventById(id);
       this.props.getUserData()
+      this.getVisionResult(visionResult)
     }
 
     getItemIndexSelector(indexOfList) {
@@ -41,28 +48,56 @@ class Result extends Component {
                 itemId: this.props.event.items[this.state.indexListSelected]._id,
                 userId : userId
             }, function () {
-                console.log('this.state after setstate value --> ', this.state)
+                console.log('this.state after set state value --> ', this.state)
             })
         })
     }
 
-    verify(){
-        // alert("clicked verify")
+    verify(quantity, price, index){
+        let dataVisionResult = this.props.navigation.getParam("visionResult");
 
-        console.log('userId : ', this.state.userId)
-        console.log('eventId : ', this.state.eventId)
-        console.log('itemId : ', this.state.itemId)
+        this.setState({
+            visionResult: dataVisionResult
+        }, function () {
+            console.log('vision result state after stated : ', this.state.visionResult)
 
-        axios.post(`https://eva-server.ariefardi.xyz/events/${this.state.eventId}/item/${this.state.itemId}/buy/${this.state.userId}`, {
-            receiptPrice: 5000
-        })
-        .then( function (res) {
-            console.log(res)
-            alert('Verify Suceess')
-        })
-        .catch( function (err) {
-            console.log('error verify ---> ', err)
-            alert('Verify Failed')
+            console.log('userId : ', this.state.userId)
+            console.log('eventId : ', this.state.eventId)
+            console.log('itemId : ', this.state.itemId)
+            console.log('item quantity : ', quantity)
+            console.log('item price : ', price)
+
+            console.log('ini disabled value index tsb --> ', this.state.visionResult.receiptItems[index].disabled)
+
+            let itemQty = quantity
+
+            if (quantity === 0) {
+                itemQty = 1
+            }
+
+            axios.post(`https://eva-server.ariefardi.xyz/events/${this.state.eventId}/item/${this.state.itemId}/buy/${this.state.userId}`, {
+                receiptPrice: price,
+                itemQuantity: itemQty
+            })
+            .then( function (res) {
+                console.log(res)
+                alert('Verify Suceess')
+            })
+            .catch( function (err) {
+                console.log('error verify ---> ', err)
+                alert('Verify Failed')
+            })
+
+            let temp = this.state.visionResult
+            temp.receiptItems[index].disabled = true
+
+            console.log('temp ---> ', temp)
+            this.setState({
+                visionResult: temp
+            }, function() {
+                console.log('this.state.visionResult ---> ', this.state.visionResult.receiptItems)
+            })
+
         })
     }
 
@@ -71,15 +106,16 @@ class Result extends Component {
     }
 
     render() {
-        console.log('ini get user dari render : ', this.props.getUser)
 
         let visionResult = this.props.navigation.getParam("visionResult");
+        
+        let visionResultItems = visionResult.receiptItems;
 
-        console.log("ini dari result: " , this.props)
+        console.log('check vision result awal : ', visionResultItems)
         
         let itemList = this.props.event.items
         
-        console.log("INI ITEM LIST: ", itemList)
+        // console.log("INI ITEM LIST: ", itemList)
 
          return (
                <Container>
@@ -107,12 +143,12 @@ class Result extends Component {
                                        <Text style={{fontWeight:"600"}}>Rp {" " + item.number.toLocaleString()}</Text>
                                     </Left>
                                     <Body>
-                                        <Text style={{fontWeight:"600"}}> Qty : item.quantity }</Text>
+                                        <Text style={{fontWeight:"600"}}> Qty : { item.quantity ? item.quantity : 1 }</Text>
                                     </Body>
                                     <Right>
-                                    <Button
+                                    <Button disabled={ item.disabled ? true : false }
                                        onPress={() => {
-                                          this.verify()
+                                          this.verify(item.quantity, item.number, index)
                                        }}
                                        >
                                           <Text
