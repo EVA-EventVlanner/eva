@@ -167,7 +167,7 @@ class MyProfile extends Component {
                             </CardItem>
                             <CardItem style={{justifyContent:'center'}}>
                                 <Button small rounded style={{padding:0, backgroundColor:'#009BD2'}}>
-                                    <Text style={{color:'white', padding: 0}}>Edit Profile</Text>
+                                    <Text style={{color:'white', padding: 0}}> Edit Profile </Text>
                                 </Button>
                             </CardItem>
                         </Card>
