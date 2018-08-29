@@ -67,15 +67,22 @@ class MyClass extends Component {
         console.log("imgBody sent to server --> ", imgBody);
 
         // Perform the request. Note the content type - very important
+        let typeItem = "";
+        if (this.props.item.itemName === "transport") {
+          typeItem = "transport";
+        } else {
+          typeItem = "needs";
+        }
         axios
-          .post(url, { type: "transport" })
+          .post(url, { type: typeItem })
           .then(res => {
             let visionResult = res.data.result;
 
             console.log("ini vision result --> ", visionResult);
 
             this.props.navigation.navigate("Result", {
-              visionResult: visionResult
+              visionResult: visionResult,
+              type: this.props.item.itemName
             });
           })
           .catch(error => {
